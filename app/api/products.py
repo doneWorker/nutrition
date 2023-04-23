@@ -1,44 +1,17 @@
-from datetime import datetime
-from typing import List, Optional
+from typing import List
 
 from fastapi import APIRouter, HTTPException, Depends
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.models.product import Product, ProductCreate, ProductUpdate
+from app.models.product import Product
+from app.schemas.product import ProductCreate, ProductOut, ProductUpdate
 
-router = APIRouter()
-
-
-# Product schema
-class ProductOut(BaseModel):
-    id: int
-    name: str
-    description: Optional[str]
-    image_url: Optional[str]
-    brand: Optional[str]
-    serving_size: Optional[int]
-    calories: Optional[float]
-    total_fat: Optional[float]
-    saturated_fat: Optional[float]
-    trans_fat: Optional[float]
-    cholesterol: Optional[float]
-    sodium: Optional[float]
-    total_carbohydrates: Optional[float]
-    dietary_fiber: Optional[float]
-    sugars: Optional[float]
-    protein: Optional[float]
-    vitamin_a: Optional[float]
-    vitamin_c: Optional[float]
-    calcium: Optional[float]
-    iron: Optional[float]
-    created_at: Optional[datetime]
-    updated_at: Optional[datetime]
+productsRouter = APIRouter()
 
 
 # Create a product
-@router.post("/products", response_model=ProductOut)
+@productsRouter.post("/products", response_model=ProductOut)
 def create_product(product: ProductCreate, db: Session = Depends(get_db)):
     db_product = Product(**product.dict())
     db.add(db_product)
@@ -48,14 +21,14 @@ def create_product(product: ProductCreate, db: Session = Depends(get_db)):
 
 
 # Get all products
-@router.get("/products", response_model=List[ProductOut])
+@productsRouter.get("/products", response_model=List[ProductOut])
 def read_products(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     products = db.query(Product).offset(skip).limit(limit).all()
-    return products
+    return [ProductOut.from_orm(product) for product in products]
 
 
 # Get a single product
-@router.get("/products/{product_id}", response_model=ProductOut)
+@productsRouter.get("/products/{product_id}", response_model=ProductOut)
 def read_product(product_id: int, db: Session = Depends(get_db)):
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
@@ -64,7 +37,7 @@ def read_product(product_id: int, db: Session = Depends(get_db)):
 
 
 # Update a product
-@router.put("/products/{product_id}", response_model=ProductOut)
+@productsRouter.put("/products/{product_id}", response_model=ProductOut)
 def update_product(product_id: int, product: ProductUpdate, db: Session = Depends(get_db)):
     db_product = db.query(Product).filter(Product.id == product_id).first()
     if not db_product:
@@ -79,7 +52,7 @@ def update_product(product_id: int, product: ProductUpdate, db: Session = Depend
 
 
 # Delete a product
-@router.delete("/products/{product_id}", response_model=ProductOut)
+@productsRouter.delete("/products/{product_id}", response_model=ProductOut)
 def delete_product(product_id: int, db: Session = Depends(get_db)):
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
