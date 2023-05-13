@@ -3,7 +3,7 @@
 </template>
 
 <style scoped lang="scss">
-@import "../variables.scss";
+/* @import "../variables.scss";
 
 .header {
   display: flex;
@@ -14,5 +14,5 @@
 
   background-color: $primary-color;
   color: $white;
-}
+} */
 </style>
