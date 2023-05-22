@@ -1,10 +1,10 @@
 <script setup lang="ts">
-// definePageMeta({
-//   pageTransition: {
-//     name: "slide",
-//     mode: "in-out",
-//   },
-// });
+definePageMeta({
+  pageTransition: {
+    name: "slide",
+    mode: "in-out",
+  },
+});
 
 // Particles effect
 onMounted(() => {
@@ -34,12 +34,8 @@ onMounted(() => {
 
 const route = useRoute();
 
-const { type } = route.params;
-
-console.log("type", type);
-
-const isSignIn = type === "sign-in";
-const isSignUp = type === "sign-up";
+const isSignIn = computed(() => route.name === "auth-sign-in");
+const isSignUp = computed(() => route.name === "auth-sign-up");
 
 defineExpose({
   isSignIn,
@@ -51,19 +47,28 @@ defineExpose({
   <div class="auth">
     <main>
       <div class="form-container d-flex v-col-auto flex-column">
-        <h1 v-if="isSignIn">Login to Your Account</h1>
-        <h1 v-else-if="isSignUp">Create Your Account</h1>
+        <ClientOnly>
+          <Transition>
+            <h1 v-if="isSignIn">Login to Your Account</h1>
+            <h1 v-else>Create Your Account</h1>
+          </Transition>
+        </ClientOnly>
 
         <div class="social">
           <p>Using social networks</p>
           <div class="buttons d-flex justify-center">
-            <v-tooltip text="Google Sign-in">
-              <template v-slot:activator="{ props }">
-                <button v-bind="props" class="social-button">
-                  <img alt="sign in with google" src="/svgs/google-logo.svg" />
-                </button>
-              </template>
-            </v-tooltip>
+            <ClientOnly>
+              <v-tooltip text="Google Sign-in">
+                <template v-slot:activator="{ props }">
+                  <button v-bind="props" class="social-button">
+                    <img
+                      alt="sign in with google"
+                      src="/svgs/google-logo.svg"
+                    />
+                  </button>
+                </template>
+              </v-tooltip>
+            </ClientOnly>
           </div>
         </div>
         <VContainer class="d-flex align-center">
@@ -94,23 +99,25 @@ defineExpose({
         <div></div>
         <div></div>
       </div>
-      <div v-if="isSignIn" class="helper">
-        <h2>New Here?</h2>
-        <p>Sign up and discover a great <br />amount of new opportunities!</p>
-        <NuxtLink to="/auth/sign-up"
-          ><VBtn class="side-button">Sign Up</VBtn></NuxtLink
-        >
-      </div>
-      <div v-else-if="isSignUp" class="helper">
-        <h2>Already have an account?</h2>
-        <p>
-          Welcome back dear User! We've missed you a lot, please sign in to your
-          account to make us a little more happier ;)
-        </p>
-        <NuxtLink to="/auth/sign-in"
-          ><VBtn class="side-button">Sign In</VBtn></NuxtLink
-        >
-      </div>
+      <ClientOnly>
+        <div v-show="isSignIn" class="helper">
+          <h2>New Here?</h2>
+          <p>Sign up and discover a great <br />amount of new opportunities!</p>
+          <NuxtLink to="/auth/sign-up"
+            ><VBtn class="side-button">Sign Up</VBtn></NuxtLink
+          >
+        </div>
+        <div v-show="isSignUp" class="helper">
+          <h2>Already have an account?</h2>
+          <p>
+            Welcome back dear User! We've missed you a lot, please sign in to
+            your account to make us a little more happier ;)
+          </p>
+          <NuxtLink to="/auth/sign-in"
+            ><VBtn class="side-button">Sign In</VBtn></NuxtLink
+          >
+        </div>
+      </ClientOnly>
     </aside>
   </div>
 </template>
