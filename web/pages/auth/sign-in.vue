@@ -82,8 +82,8 @@ defineExpose({
         align-self="center"
         class="d-flex align-center ma-0"
       >
-        <v-divider class="mx-4 bold"></v-divider><span class="or">or</span
-        ><v-divider class="mx-4"></v-divider>
+        <VDivider class="mx-4 bold" /><span class="or">or</span
+        ><VDivider class="mx-4" />
       </VCol>
     </VRow>
 
