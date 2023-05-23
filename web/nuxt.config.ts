@@ -1,5 +1,6 @@
 import vuetify from "vite-plugin-vuetify";
 import { createResolver } from "@nuxt/kit";
+import svgLoader from "vite-svg-loader";
 
 const { resolve } = createResolver(import.meta.url);
 
@@ -20,5 +21,8 @@ export default defineNuxtConfig({
         })
       );
     },
+  },
+  vite: {
+    plugins: [svgLoader()],
   },
 });

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import TriangleIcon from "~/assets/icons/triangle.svg?component";
+
 definePageMeta({
   pageTransition: {
     name: "slide",
@@ -46,25 +48,18 @@ defineExpose({
 <template>
   <VContainer fluid class="auth pa-0 h-screen">
     <VRow>
-      <VCol no-gutters cols="7" tag="main">
+      <VCol
+        no-gutters
+        cols="7"
+        tag="main"
+        class="d-flex align-center overflow-hidden"
+      >
         <NuxtPage />
       </VCol>
       <VCol no-gutters cols="5" tag="aside">
         <div class="bg">
           <div>
-            <svg
-              width="203"
-              height="200"
-              viewBox="0 0 203 200"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M106 0.499988L202.087 126.651L0.729406 199.939L106 0.499988Z"
-                fill="white"
-                fill-opacity="0.1"
-              />
-            </svg>
+            <TriangleIcon />
           </div>
           <div />
           <div />
@@ -135,6 +130,7 @@ defineExpose({
   opacity: 0;
   transition: all 0.7s;
 }
+
 .slide-enter-to {
   transform: translateX(0);
   opacity: 1;
@@ -159,12 +155,6 @@ defineExpose({
 
   main {
     position: relative;
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
 
     .form-container {
       gap: 20px;
@@ -181,20 +171,6 @@ defineExpose({
 
         .buttons {
           gap: 15px;
-
-          .social-button {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            box-shadow: 0 0 2px $green-500;
-
-            img {
-              width: 75%;
-            }
-          }
         }
       }
 

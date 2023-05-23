@@ -2,6 +2,7 @@
 import { useField, useForm } from "vee-validate";
 import * as yup from "yup";
 import { sleep } from "../../utils/sleep";
+import GoogleIcon from "~/assets/icons/google-logo.svg?component";
 
 useHead({
   title: "Auth | Sign In",
@@ -19,10 +20,7 @@ const validationSchema = yup.object().shape({
     .matches(/^(?=.*[a-z])/, " Must Contain One Lowercase Character")
     .matches(/^(?=.*[A-Z])/, "  Must Contain One Uppercase Character")
     .matches(/^(?=.*[0-9])/, "  Must Contain One Number Character")
-    .matches(
-      /^(?=.*[!@#\$%\^&\*])/,
-      "  Must Contain  One Special Case Character"
-    ),
+    .matches(/^(?=.*[!@#$%^&*])/, "  Must Contain  One Special Case Character"),
 });
 
 interface SignInForm {
@@ -64,13 +62,13 @@ defineExpose({
       <p>Using social networks</p>
       <div class="buttons d-flex justify-center">
         <ClientOnly>
-          <v-tooltip text="Google Sign-in">
+          <vTooltip text="Google Sign-in">
             <template v-slot:activator="{ props }">
-              <button v-bind="props" class="social-button">
-                <img alt="sign in with google" src="/svgs/google-logo.svg" />
-              </button>
+              <VBtn v-bind="props" width="48" height="48" icon rounded>
+                <GoogleIcon width="32" height="32" />
+              </VBtn>
             </template>
-          </v-tooltip>
+          </vTooltip>
         </ClientOnly>
       </div>
     </div>
