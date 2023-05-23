@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 import { useToast, POSITION } from "vue-toastification";
-
 import "vue-toastification/dist/index.css";
 import { useField, useForm } from "vee-validate";
 import * as yup from "yup";
+
+useHead({
+  title: "Auth | Sign Up",
+});
 
 const showPassword = ref(false);
 
@@ -71,48 +74,91 @@ defineExpose({
 </script>
 
 <template>
-  <form class="form" validate-on="blur" @submit.prevent="onSubmit">
-    <VTextField
-      v-model="email.value.value"
-      class="field"
-      bg-color="#DEF5EF"
-      type="email"
-      placeholder="E-mail"
-      variant="solo"
-      :error-messages="email.errorMessage.value"
-    />
+  <VContainer fluid class="form-container d-flex v-col-auto flex-column w-100">
+    <h1 class="text-center">Create Your Account</h1>
 
-    <VTextField
-      v-model="password.value.value"
-      class="field"
-      bg-color="#DEF5EF"
-      placeholder="Password"
-      variant="solo"
-      :type="showPassword ? 'text' : 'password'"
-      :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-      @click:append-inner="showPassword = !showPassword"
-      :error-messages="password.errorMessage.value"
-    />
+    <div class="social">
+      <p>Using social networks</p>
+      <div class="buttons d-flex justify-center">
+        <ClientOnly>
+          <v-tooltip text="Google Sign-in">
+            <template v-slot:activator="{ props }">
+              <button v-bind="props" class="social-button">
+                <img alt="sign in with google" src="/svgs/google-logo.svg" />
+              </button>
+            </template>
+          </v-tooltip>
+        </ClientOnly>
+      </div>
+    </div>
 
-    <VTextField
-      v-model="confirmPassword.value.value"
-      class="field"
-      bg-color="#DEF5EF"
-      placeholder="Confirm Password"
-      variant="solo"
-      type="password"
-      :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-      @paste="onPaste"
-      @click:append-inner="showPassword = !showPassword"
-      :error-messages="confirmPassword.errorMessage.value"
-    />
+    <VRow no-gutters justify="center">
+      <VCol
+        cols="10"
+        lg="7"
+        xl="4"
+        xxl="3"
+        align-self="center"
+        class="d-flex align-center ma-0"
+      >
+        <v-divider class="mx-4 bold"></v-divider><span class="or">or</span
+        ><v-divider class="mx-4"></v-divider>
+      </VCol>
+    </VRow>
 
-    <VBtn
-      type="submit"
-      color="#22A786"
-      :loading="isSubmitting"
-      :disabled="!isFormValid"
-      >Sign Up</VBtn
-    >
-  </form>
+    <VRow no-gutters justify="center">
+      <VCol cols="10" lg="7" xl="4" xxl="3" align-self="center">
+        <VForm class="form pa-0" validate-on="blur" @submit.prevent="onSubmit">
+          <VTextField
+            v-model="email.value.value"
+            class="field"
+            bg-color="#DEF5EF"
+            type="email"
+            placeholder="E-mail"
+            variant="solo"
+            density="comfortable"
+            :error-messages="email.errorMessage.value"
+          />
+
+          <VTextField
+            v-model="password.value.value"
+            class="field"
+            bg-color="#DEF5EF"
+            placeholder="Password"
+            variant="solo"
+            density="comfortable"
+            :type="showPassword ? 'text' : 'password'"
+            :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+            @click:append-inner="showPassword = !showPassword"
+            :error-messages="password.errorMessage.value"
+          />
+
+          <VTextField
+            v-model="confirmPassword.value.value"
+            class="field"
+            bg-color="#DEF5EF"
+            placeholder="Confirm Password"
+            variant="solo"
+            density="comfortable"
+            type="password"
+            :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+            @paste="onPaste"
+            @click:append-inner="showPassword = !showPassword"
+            :error-messages="confirmPassword.errorMessage.value"
+          />
+
+          <VBtn
+            type="submit"
+            color="#22A786"
+            density="default"
+            size="x-large"
+            class="text-capitalize rounded-pill px-16"
+            :loading="isSubmitting"
+            :disabled="!isFormValid"
+            >Sign Up</VBtn
+          >
+        </VForm>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>

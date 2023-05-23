@@ -44,94 +44,96 @@ defineExpose({
 </script>
 
 <template>
-  <div class="auth">
-    <main>
-      <div class="form-container d-flex v-col-auto flex-column">
+  <VContainer fluid class="auth pa-0 h-screen">
+    <VRow>
+      <VCol no-gutters cols="7" tag="main">
+        <NuxtPage />
+      </VCol>
+      <VCol no-gutters cols="5" tag="aside">
+        <div class="bg">
+          <div>
+            <svg
+              width="203"
+              height="200"
+              viewBox="0 0 203 200"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M106 0.499988L202.087 126.651L0.729406 199.939L106 0.499988Z"
+                fill="white"
+                fill-opacity="0.1"
+              />
+            </svg>
+          </div>
+          <div />
+          <div />
+        </div>
         <ClientOnly>
-          <Transition>
-            <h1 v-if="isSignIn">Login to Your Account</h1>
-            <h1 v-else>Create Your Account</h1>
+          <Transition name="slide-up">
+            <div v-if="isSignIn" class="helper">
+              <h2>New Here?</h2>
+              <p>
+                Sign up and discover a great <br />amount of new opportunities!
+              </p>
+
+              <NuxtLink to="/auth/sign-up"
+                ><VBtn
+                  color="white"
+                  size="x-large"
+                  elevation="24"
+                  class="text-capitalize rounded-pill px-16"
+                  >Sign Up</VBtn
+                ></NuxtLink
+              >
+            </div>
+            <div v-else class="helper">
+              <h2>Already have an account?</h2>
+              <p>
+                Welcome back dear User! We've missed you a lot, please sign in
+                to your account to make us a little more happier ;)
+              </p>
+              <NuxtLink to="/auth/sign-in"
+                ><VBtn
+                  color="white"
+                  size="x-large"
+                  elevation="24"
+                  class="text-capitalize rounded-pill px-16"
+                  >Sign In</VBtn
+                ></NuxtLink
+              >
+            </div>
           </Transition>
         </ClientOnly>
-
-        <div class="social">
-          <p>Using social networks</p>
-          <div class="buttons d-flex justify-center">
-            <ClientOnly>
-              <v-tooltip text="Google Sign-in">
-                <template v-slot:activator="{ props }">
-                  <button v-bind="props" class="social-button">
-                    <img
-                      alt="sign in with google"
-                      src="/svgs/google-logo.svg"
-                    />
-                  </button>
-                </template>
-              </v-tooltip>
-            </ClientOnly>
-          </div>
-        </div>
-        <VContainer class="d-flex align-center">
-          <v-divider class="mx-4 bold"></v-divider><span class="or">or</span
-          ><v-divider class="mx-4"></v-divider>
-        </VContainer>
-
-        <NuxtPage />
-      </div>
-    </main>
-    <aside>
-      <div class="bg">
-        <div>
-          <svg
-            width="203"
-            height="200"
-            viewBox="0 0 203 200"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M106 0.499988L202.087 126.651L0.729406 199.939L106 0.499988Z"
-              fill="white"
-              fill-opacity="0.1"
-            />
-          </svg>
-        </div>
-        <div></div>
-        <div></div>
-      </div>
-      <ClientOnly>
-        <div v-show="isSignIn" class="helper">
-          <h2>New Here?</h2>
-          <p>Sign up and discover a great <br />amount of new opportunities!</p>
-          <NuxtLink to="/auth/sign-up"
-            ><VBtn class="side-button">Sign Up</VBtn></NuxtLink
-          >
-        </div>
-        <div v-show="isSignUp" class="helper">
-          <h2>Already have an account?</h2>
-          <p>
-            Welcome back dear User! We've missed you a lot, please sign in to
-            your account to make us a little more happier ;)
-          </p>
-          <NuxtLink to="/auth/sign-in"
-            ><VBtn class="side-button">Sign In</VBtn></NuxtLink
-          >
-        </div>
-      </ClientOnly>
-    </aside>
-  </div>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <style lang="scss">
 @import "../styles/global.scss";
 @import "../styles/variables.scss";
 
+// Animations
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.5s ease-out;
+}
+
+.slide-up-enter-from {
+  opacity: 0;
+}
+
+.slide-up-leave-to {
+  opacity: 0;
+}
+
 .slide-enter-active,
 .slide-leave-active {
   position: absolute;
   transform: translateX(-100vw);
   opacity: 0;
-  transition: all 1s;
+  transition: all 0.7s;
 }
 .slide-enter-to {
   transform: translateX(0);
@@ -143,12 +145,8 @@ defineExpose({
   opacity: 0;
 }
 
+// Components
 .auth {
-  overflow: hidden;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-
   h1,
   h2 {
     font-size: 60px;
@@ -160,11 +158,13 @@ defineExpose({
   }
 
   main {
+    position: relative;
     width: 60%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 
     .form-container {
       gap: 20px;
@@ -214,7 +214,7 @@ defineExpose({
         gap: 20px;
 
         .field {
-          width: 530px;
+          width: 100%;
 
           .v-field {
             border: 2px solid transparent;
@@ -234,21 +234,20 @@ defineExpose({
 
           .v-field,
           .field .v-field__outline__end,
-          .v-input__control {
+          .v-input__control,
+          .v-field input {
             box-shadow: none;
             border-radius: 55px !important;
+          }
+
+          input:-internal-autofill-selected {
+            background-color: transparent !important;
           }
         }
 
         button {
-          align-self: center;
-          height: auto;
-          padding: 18px 100px;
           margin-top: 10px;
 
-          text-transform: capitalize;
-          font-size: 20px;
-          border-radius: 50px;
           color: white;
           background-color: #22a786;
         }
@@ -280,19 +279,6 @@ defineExpose({
       p {
         font-size: 28px;
         font-weight: 500;
-      }
-
-      .side-button {
-        height: auto;
-        padding: 18px 100px;
-        text-transform: capitalize;
-
-        font-size: 20px;
-        font-weight: 600;
-        border-radius: 45px;
-        background-color: white;
-        color: black;
-        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
       }
     }
 

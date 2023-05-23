@@ -1,41 +1,11 @@
-<template>
-  <form class="form" validate-on="blur" @submit.prevent="onSubmit">
-    <VTextField
-      v-model="email.value.value"
-      class="field"
-      bg-color="#DEF5EF"
-      type="email"
-      placeholder="E-mail"
-      variant="solo"
-      :error-messages="email.errorMessage.value"
-    />
-
-    <VTextField
-      v-model="password.value.value"
-      class="field"
-      bg-color="#DEF5EF"
-      placeholder="password"
-      variant="solo"
-      :type="showPassword ? 'text' : 'password'"
-      :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-      @click:append-inner="showPassword = !showPassword"
-      :error-messages="password.errorMessage.value"
-    />
-
-    <VBtn
-      type="submit"
-      color="#22A786"
-      :loading="isSubmitting"
-      :disabled="!isFormValid"
-      >Sign In</VBtn
-    >
-  </form>
-</template>
-
 <script lang="ts" setup>
 import { useField, useForm } from "vee-validate";
 import * as yup from "yup";
 import { sleep } from "../../utils/sleep";
+
+useHead({
+  title: "Auth | Sign In",
+});
 
 const showPassword = ref(false);
 
@@ -85,3 +55,79 @@ defineExpose({
   onSubmit,
 });
 </script>
+
+<template>
+  <VContainer fluid class="form-container d-flex v-col-auto flex-column w-100">
+    <h1 class="text-center">Login to Your Account</h1>
+
+    <div class="social">
+      <p>Using social networks</p>
+      <div class="buttons d-flex justify-center">
+        <ClientOnly>
+          <v-tooltip text="Google Sign-in">
+            <template v-slot:activator="{ props }">
+              <button v-bind="props" class="social-button">
+                <img alt="sign in with google" src="/svgs/google-logo.svg" />
+              </button>
+            </template>
+          </v-tooltip>
+        </ClientOnly>
+      </div>
+    </div>
+
+    <VRow no-gutters justify="center">
+      <VCol
+        cols="10"
+        lg="7"
+        xl="4"
+        xxl="3"
+        align-self="center"
+        class="d-flex align-center ma-0"
+      >
+        <v-divider class="mx-4 bold"></v-divider><span class="or">or</span
+        ><v-divider class="mx-4"></v-divider>
+      </VCol>
+    </VRow>
+
+    <VRow no-gutters justify="center">
+      <VCol cols="10" lg="7" xl="4" xxl="3" align-self="center">
+        <VForm class="form pa-0" validate-on="blur" @submit.prevent="onSubmit">
+          <VTextField
+            v-model="email.value.value"
+            class="field"
+            bg-color="#DEF5EF"
+            type="email"
+            placeholder="E-mail"
+            density="comfortable"
+            variant="solo"
+            :error-messages="email.errorMessage.value"
+          />
+
+          <VTextField
+            v-model="password.value.value"
+            class="field"
+            bg-color="#DEF5EF"
+            placeholder="password"
+            variant="solo"
+            density="comfortable"
+            :type="showPassword ? 'text' : 'password'"
+            :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+            @click:append-inner="showPassword = !showPassword"
+            :error-messages="password.errorMessage.value"
+          />
+
+          <VBtn
+            type="submit"
+            color="#22A786"
+            density="default"
+            size="x-large"
+            class="text-capitalize rounded-pill px-16"
+            :loading="isSubmitting"
+            :disabled="!isFormValid"
+            >Sign In</VBtn
+          >
+        </VForm>
+      </VCol>
+    </VRow>
+  </VContainer>
+</template>
