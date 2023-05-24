@@ -28,5 +28,5 @@ class Product(Base):
     vitamin_c = Column(Float, nullable=True)
     calcium = Column(Float, nullable=True)
     iron = Column(Float, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow)
+    date_created = Column(DateTime, default=datetime.utcnow)
+    date_updated = Column(DateTime, default=datetime.utcnow)

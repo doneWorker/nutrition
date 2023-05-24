@@ -51,7 +51,7 @@ class ProductUpdate(BaseModel):
 class ProductOut(BaseModel):
     class Config:
         orm_mode = True
-        
+
     id: int
     name: str
     description: Optional[str]
@@ -72,5 +72,5 @@ class ProductOut(BaseModel):
     vitamin_c: Optional[float]
     calcium: Optional[float]
     iron: Optional[float]
-    created_at: Optional[datetime]
-    updated_at: Optional[datetime]
+    date_created: Optional[datetime]
+    date_updated: Optional[datetime]
