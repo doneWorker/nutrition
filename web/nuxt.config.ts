@@ -5,6 +5,11 @@ import svgLoader from "vite-svg-loader";
 const { resolve } = createResolver(import.meta.url);
 
 export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      apiUrl: "/api/v1",
+    },
+  },
   css: [
     "vuetify/lib/styles/main.sass",
     "@mdi/font/css/materialdesignicons.min.css",

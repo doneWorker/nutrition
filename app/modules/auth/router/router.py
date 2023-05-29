@@ -10,7 +10,7 @@ import config
 from app.core.database import get_db
 from app.modules.users import service as users_service
 from app.modules.users.schemas.user import UserCreate
-from ..schemas.auth import SignUpRequest, Token
+from ..schemas.auth import SignUpRequest, SignInRequest, Token
 from ..utils import verify_password, get_password_hash, create_access_token
 
 authRouter = APIRouter()
@@ -18,7 +18,7 @@ authRouter = APIRouter()
 ACCESS_TOKEN_EXPIRE_MINUTES = config.get_settings().access_token_expire_minutes
 
 
-@authRouter.post("/auth/sign-in", response_model=Token)
+@authRouter.post("/auth/token", response_model=Token)
 def sign_in_endpoint(request: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db)):
     user = users_service.get_user_by_email(request.username, db)
 
@@ -33,6 +33,33 @@ def sign_in_endpoint(request: Annotated[OAuth2PasswordRequestForm, Depends()], d
     access_token = create_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
     )
+
+    return {"access_token": access_token, "token_type": "bearer"}
+
+
+@authRouter.post("/auth/sign-in", response_model=Token or HTTPException)
+def sign_in_endpoint(request: SignInRequest, db: Session = Depends(get_db)):
+    user = users_service.get_user_by_email(request.email, db)
+
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    if verify_password(request.password, user.password) is False:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.email}, expires_delta=access_token_expires
+    )
+    # refresh_token = create_refresh_token()
 
     return {"access_token": access_token, "token_type": "bearer"}
 

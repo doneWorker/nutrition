@@ -11,7 +11,7 @@ from app.modules.auth.schemas.auth import TokenData
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/api/v1/auth/sign-in')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/api/v1/token')
 SECRET_KEY = config.get_settings().secret_key
 ALGORITHM = config.get_settings().algorithm
 
@@ -49,7 +49,12 @@ def get_token_data(token, credential_exception):
 
 
 def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
+    try:
+        is_verified = pwd_context.verify(plain_password, hashed_password)
+    except ValueError or TypeError:
+        return False
+
+    return is_verified
 
 
 def get_password_hash(password):

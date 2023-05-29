@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { useField, useForm } from "vee-validate";
 import * as yup from "yup";
-import { sleep } from "../../utils/sleep";
 import GoogleIcon from "~/assets/icons/google-logo.svg?component";
+
+const config = useRuntimeConfig();
+const apiUrl = config.public.apiUrl;
 
 useHead({
   title: "Auth | Sign In",
@@ -40,8 +42,9 @@ const isFormValid = computed(() => {
 });
 
 const onSubmit = handleSubmit(async (values: SignInForm) => {
-  await sleep(2000);
-  console.log("values", values);
+  const { $api } = useNuxtApp();
+
+  await
 });
 
 defineExpose({
