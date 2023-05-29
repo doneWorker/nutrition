@@ -6,3 +6,4 @@ python-dotenv~=1.0.0
 jose~=1.0.0
 passlib~=1.7.4
 mysql-connector-python~=8.0.26
+email-validator
