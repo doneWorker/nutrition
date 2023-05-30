@@ -44,7 +44,7 @@ const isFormValid = computed(() => {
 const onSubmit = handleSubmit(async (values: SignInForm) => {
   const { $api } = useNuxtApp();
 
-  await
+  // await $api.
 });
 
 defineExpose({

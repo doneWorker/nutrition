@@ -16,6 +16,18 @@ class SignInRequest(BaseModel):
     password: str
 
 
+class ChangePasswordRequest(BaseModel):
+    old_password: constr(strip_whitespace=True, min_length=10)
+    new_password: constr(strip_whitespace=True, min_length=10)
+    confirm_password: str
+
+    @validator('confirm_password')
+    def passwords_match(cls, v, values, **kwargs):
+        if 'confirm_password' in values and v != values['new_password']:
+            raise ValueError('passwords do not match')
+        return v
+
+
 class SignUpRequest(BaseModel):
     email: EmailStr
     password: constr(strip_whitespace=True, min_length=10)

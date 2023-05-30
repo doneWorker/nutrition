@@ -11,7 +11,7 @@ from app.modules.auth.schemas.auth import TokenData
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/api/v1/token')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/api/v1/auth/token')
 SECRET_KEY = config.get_settings().secret_key
 ALGORITHM = config.get_settings().algorithm
 

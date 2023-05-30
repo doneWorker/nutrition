@@ -7,10 +7,12 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 import config
+from app.common.schemas import ApiResponse, APIHttpException
 from app.core.database import get_db
+from app.modules.auth.utils import get_current_user
 from app.modules.users import service as users_service
 from app.modules.users.schemas.user import UserCreate
-from ..schemas.auth import SignUpRequest, SignInRequest, Token
+from ..schemas.auth import SignUpRequest, SignInRequest, ChangePasswordRequest, Token, TokenData
 from ..utils import verify_password, get_password_hash, create_access_token
 
 authRouter = APIRouter()
@@ -83,6 +85,24 @@ def sign_out_endpoint():
     pass
 
 
+@authRouter.post("/auth/change-password", response_model=ApiResponse)
+def change_password_endpoint(request: ChangePasswordRequest, db: Session = Depends(get_db),
+                             current_user: TokenData = Depends(get_current_user)):
+    email = current_user.sub
+    user = users_service.get_user_by_email(email, db)
+
+    if user is None or not verify_password(request.old_password, user.password):
+        raise APIHttpException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Please re-login")
+
+    updated_hash_password = get_password_hash(request.new_password)
+    updated_successfully = users_service.change_user_password(user.id, updated_hash_password, db)
+
+    if not updated_successfully:
+        raise APIHttpException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Something went wrong")
+
+    return {"success": True, "message": "Password successfully changed"}
+
+
 @authRouter.post("/auth/reset-password")
 def reset_password_endpoint():
     pass
@@ -90,11 +110,6 @@ def reset_password_endpoint():
 
 @authRouter.post("/auth/refresh-access-token")
 def refresh_access_token_endpoint(email: str, db: Session = Depends(get_db)):
-    users_service.get_user_by_email(email, db)
-
-
-@authRouter.post("/auth/change-password")
-def change_password_endpoint():
     pass
 
 
