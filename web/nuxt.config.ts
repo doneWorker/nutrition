@@ -29,5 +29,14 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [svgLoader()],
+    server: {
+      proxy: {
+        "/api": {
+          target: process.env.NUXT_PUBLIC_API_URL,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ""),
+        },
+      },
+    },
   },
 });

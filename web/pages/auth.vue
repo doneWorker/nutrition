@@ -2,6 +2,7 @@
 import TriangleIcon from "~/assets/icons/triangle.svg?component";
 
 definePageMeta({
+  middleware: ["guest"],
   pageTransition: {
     name: "slide",
     mode: "in-out",

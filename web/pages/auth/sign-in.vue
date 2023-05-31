@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useField, useForm } from "vee-validate";
 import * as yup from "yup";
+import { signIn } from "~/api/auth";
 import GoogleIcon from "~/assets/icons/google-logo.svg?component";
 
 const config = useRuntimeConfig();
@@ -25,11 +26,6 @@ const validationSchema = yup.object().shape({
     .matches(/^(?=.*[!@#$%^&*])/, "  Must Contain  One Special Case Character"),
 });
 
-interface SignInForm {
-  email: string;
-  password: string;
-}
-
 const { handleSubmit, errors, isSubmitting } = useForm<SignInForm>({
   validationSchema,
 });
@@ -41,10 +37,14 @@ const isFormValid = computed(() => {
   return Object.keys(errors.value).length === 0;
 });
 
-const onSubmit = handleSubmit(async (values: SignInForm) => {
-  const { $api } = useNuxtApp();
+interface SignInForm {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
-  // await $api.
+const onSubmit = handleSubmit(async (values: SignInForm) => {
+  signIn(values);
 });
 
 defineExpose({
