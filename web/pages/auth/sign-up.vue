@@ -4,6 +4,7 @@ import "vue-toastification/dist/index.css";
 import { useField, useForm } from "vee-validate";
 import * as yup from "yup";
 import GoogleIcon from "~/assets/icons/google-logo.svg?component";
+import { signUp } from "~/api/auth";
 
 useHead({
   title: "Auth | Sign Up",
@@ -48,7 +49,7 @@ const isFormValid = computed(() => {
 });
 
 const onSubmit = handleSubmit(async (values: SignUpForm) => {
-  await sleep(2000);
+  signUp(values);
 });
 
 const onPaste = (e: ClipboardEvent) => {

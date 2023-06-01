@@ -4,9 +4,6 @@ import * as yup from "yup";
 import { signIn } from "~/api/auth";
 import GoogleIcon from "~/assets/icons/google-logo.svg?component";
 
-const config = useRuntimeConfig();
-const apiUrl = config.public.apiUrl;
-
 useHead({
   title: "Auth | Sign In",
 });
