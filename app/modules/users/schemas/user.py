@@ -13,6 +13,18 @@ class UserCreate(BaseModel):
     auth_type: Optional[str] = "internal"
 
 
+class UserSignInOut(BaseModel):
+    id: int
+    email: str
+    nickname: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    is_verified: Optional[bool] = False
+
+    class Config:
+        orm_mode = True
+
+
 class UserUpdate(BaseModel):
     nickname: str
     first_name: str

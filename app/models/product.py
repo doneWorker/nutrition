@@ -8,7 +8,7 @@ from app.core.database import Base
 class Product(Base):
     __tablename__ = "products"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     name = Column(String(100), index=True)
     description = Column(String(255), nullable=True)
     image_url = Column(String(255), nullable=True)

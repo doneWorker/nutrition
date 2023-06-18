@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int
 
 
-@lru_cache
+@lru_cache()
 def get_settings() -> Settings:
     """
 
@@ -23,8 +23,11 @@ def get_settings() -> Settings:
     """
     # Load environment variables from {env_name}.env file
     env_path = f"{os.getenv('ENV_NAME', 'development')}.env"
-    load_dotenv(dotenv_path=env_path)
 
+    config_directory = os.path.abspath(env_path)
+    print(f"Searching for config file in: {config_directory}")
+
+    load_dotenv(dotenv_path=env_path)
     # Initialize Settings instance with environment variables or default values
     return Settings(
         env_name=os.getenv('ENV_NAME', 'development'),
