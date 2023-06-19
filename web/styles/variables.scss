@@ -1,4 +1,64 @@
-$green-500: #177059;
+// Green
+$green-light: #e9f8f4;
+$green-light-hover: #def5ef;
+$green-light-active: #d4f2ea;
+$green-normal: #26ba95;
+$green-normal-hover: #22a786;
+$green-normal-active: #1e9577;
+$green-dark: #1d8c70;
+$green-dark-hover: #177059;
+$green-dark-active: #115443;
+$green-darker: #0d4134;
+
+// Blue
+$blue-light: #eefbff;
+$blue-light-hover: #e6f9ff;
+$blue-light-active: #cbf2ff;
+$blue-normal: #57d5ff;
+$blue-normal-hover: #4ec0e6;
+$blue-normal-active: #46aacc;
+$blue-dark: #41a0bf;
+$blue-dark-hover: #348099;
+$blue-dark-active: #276073;
+$blue-darker: #1e4b59;
+
+// Yellow
+$yellow-light: #fffae6;
+$yellow-light-hover: #fff7d9;
+$yellow-light-active: #ffeeb0;
+$yellow-normal: #ffc800;
+$yellow-normal-hover: #e6b400;
+$yellow-normal-active: #cca000;
+$yellow-dark: #bf9600;
+$yellow-dark-hover: #997800;
+$yellow-dark-active: #735a00;
+$yellow-darker: #594600;
+
+// Red
+$red-light: #ffede6;
+$red-light-hover: #ffe4d9;
+$red-light-active: #ffc8b0;
+$red-normal: #ff4d00;
+$red-normal-hover: #e64500;
+$red-normal-active: #cc3e00;
+$red-dark: #bf3a00;
+$red-dark-hover: #992e00;
+$red-dark-active: #732300;
+$red-darker: #591b00;
+
+// Grey
+$grey-light: #f2f2f2;
+$grey-light-hover: #ececec;
+$grey-light-active: #d8d8d8;
+$grey-normal: #808080;
+$grey-normal-hover: #737373;
+$grey-normal-active: #666666;
+$grey-dark: #606060;
+$grey-dark-hover: #4d4d4d;
+$grey-dark-active: #3a3a3a;
+$grey-darker: #2d2d2d;
+
+// White
 $white: white;
 
-$primary-color: $green-500;
+$primary-color: $green-dark;
