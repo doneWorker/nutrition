@@ -1,9 +1,6 @@
-<script setup lang="ts"></script>
-
 <template>
   <div class="products-list">
-    <ProductsItem />
-    <ProductsItem />
+    <ProductsItem v-for="n in 10" />
   </div>
 </template>
 

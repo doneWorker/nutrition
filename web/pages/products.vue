@@ -1,3 +1,8 @@
+<script>
+useHead({
+  title: "Products | Main",
+});
+</script>
 <template>
   <div>
     <Header />
@@ -18,14 +23,13 @@
 @import "../styles/variables.scss";
 
 main {
-  min-height: calc(100vh - 66px);
-
-  background-color: $green-light;
+  min-height: calc(100vh - 60px);
 }
 
-/* .product-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  grid-gap: 1rem;
-} */
+@media screen and (min-width: 400px) {
+  main {
+    min-height: calc(100vh - 66px);
+    background-color: $green-light;
+  }
+}
 </style>
