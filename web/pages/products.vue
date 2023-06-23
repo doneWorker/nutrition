@@ -1,22 +1,30 @@
-<script>
+<script setup>
+import { useDisplay } from "vuetify";
+
+const { xs } = useDisplay();
+
 useHead({
   title: "Products | Main",
 });
 </script>
 <template>
-  <div>
-    <Header />
-    <main>
-      <VRow no-gutters justify="center">
-        <VCol cols="12" sm="12" md="6" class="d-flex align-center py-2">
-          <ProductsList />
-        </VCol>
-        <VCol cols="12" sm="12" md="6" class="d-flex align-center py-2">
-          <ProductsShelves />
-        </VCol>
-      </VRow>
-    </main>
-  </div>
+  <ClientOnly>
+    <HeaderDesktopHeader v-if="!xs" />
+    <HeaderMobileHeader v-if="xs" />
+  </ClientOnly>
+  <main>
+    <VRow no-gutters justify="center">
+      <VCol cols="12" sm="12" md="6" class="d-flex align-center py-2">
+        <ProductsList />
+      </VCol>
+      <VCol cols="12" sm="12" md="6" class="d-flex align-center py-2">
+        <ProductsShelves />
+      </VCol>
+    </VRow>
+  </main>
+  <ClientOnly>
+    <FooterMobileNav v-if="xs" />
+  </ClientOnly>
 </template>
 
 <style lang="scss">

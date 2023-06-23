@@ -10,6 +10,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
+  grid-gap: 25px 10px;
+  padding-bottom: 100px;
 }
 </style>

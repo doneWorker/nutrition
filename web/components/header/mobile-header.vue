@@ -1,9 +1,18 @@
 <script setup>
+import clsx from "clsx";
 import BasketIcon from "~/assets/icons/basket.svg";
+import NutritionRequirements from "./nutriment-requirements.vue";
+
+const shadowIsVisible = ref(false);
+
+window.addEventListener("scroll", () => {
+  if (window.pageYOffset > 10) shadowIsVisible.value = true;
+  else shadowIsVisible.value = false;
+});
 </script>
 
 <template>
-  <header className="header">
+  <header :class="clsx('header', shadowIsVisible && 'shadow')">
     <VContainer class="d-flex pa-0 gap">
       <VBtn icon="mdi-arrow-left" size="40" class="mr-4" variant="text" />
       <VTextField
@@ -23,23 +32,35 @@ import BasketIcon from "~/assets/icons/basket.svg";
       </VBtn>
     </VContainer>
   </header>
+  <NutritionRequirements />
 </template>
 
 <style scoped lang="scss">
 @import "styles/variables.scss";
 
 .header {
+  position: sticky;
+  top: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 60px;
   padding: 10px;
+  z-index: 9;
+
+  background-color: $white;
+  transition: box-shadow 0.3s ease-in-out;
+
+  &.shadow {
+    box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .basket-counter {
   &::v-deep .v-badge__badge {
     bottom: -30% !important;
+    z-index: 2;
 
     font-size: 9px;
     background-color: $green-normal;
