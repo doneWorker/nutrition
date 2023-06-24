@@ -13,7 +13,7 @@ def get_product(product_id: int, db: Session = Depends(get_db)):
 
 
 def get_products(query: ProductsQuery, db: Session = Depends(get_db)):
-    products = db.query(Product).offset(query.skip).limit(query.limit).all()
+    products = db.query(Product).filter(Product.image_url != None).offset(query.skip).limit(query.limit).all()
 
     return [ProductOut.from_orm(product) for product in products]
 

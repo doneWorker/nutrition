@@ -1,0 +1,3 @@
+type ProductItemModel = {
+  id: number;
+};

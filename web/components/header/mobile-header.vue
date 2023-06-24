@@ -13,26 +13,28 @@ window.addEventListener("scroll", () => {
 
 <template>
   <header :class="clsx('header', shadowIsVisible && 'shadow')">
-    <VContainer class="d-flex pa-0 gap">
-      <VBtn icon="mdi-arrow-left" size="40" class="mr-4" variant="text" />
-      <VTextField
-        label=""
-        variant="solo"
-        density="compact"
-        class="search-input mr-4"
-        bg-color="grey-lighten-3"
-        placeholder="Search for products"
-        single-line
-        hide-details
-      />
-      <VBtn class="text-none" size="40" stacked rounded variant="text">
-        <VBadge content="2" class="basket-counter">
-          <BasketIcon />
-        </VBadge>
-      </VBtn>
-    </VContainer>
+    <div class="main-header">
+      <VContainer class="d-flex pa-0 gap">
+        <VBtn icon="mdi-arrow-left" size="40" class="mr-4" variant="text" />
+        <VTextField
+          label=""
+          variant="solo"
+          density="compact"
+          class="search-input mr-4"
+          bg-color="grey-lighten-3"
+          placeholder="Search for products"
+          single-line
+          hide-details
+        />
+        <VBtn class="text-none" size="40" stacked rounded variant="text">
+          <VBadge content="2" class="basket-counter">
+            <BasketIcon />
+          </VBadge>
+        </VBtn>
+      </VContainer>
+    </div>
+    <NutritionRequirements />
   </header>
-  <NutritionRequirements />
 </template>
 
 <style scoped lang="scss">
@@ -41,20 +43,22 @@ window.addEventListener("scroll", () => {
 .header {
   position: sticky;
   top: 0;
+  z-index: 9;
+  &.shadow {
+    box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.main-header {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 60px;
   padding: 10px;
-  z-index: 9;
 
   background-color: $white;
   transition: box-shadow 0.3s ease-in-out;
-
-  &.shadow {
-    box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.15);
-  }
 }
 
 .basket-counter {

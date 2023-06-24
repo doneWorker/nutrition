@@ -1,11 +1,23 @@
 <script setup>
 import { useDisplay } from "vuetify";
+// import { fetchProducts } from "~/api/products";
 
 const { xs } = useDisplay();
 
 useHead({
   title: "Products | Main",
 });
+
+const { data: products, error } = await $fetch("/api/products").catch(
+  (error) => error.data
+);
+
+const list = (products || []).map((_product) => ({
+  ..._product,
+  id: _product.id,
+  title: _product.name,
+  image: _product.image_url,
+}));
 </script>
 <template>
   <ClientOnly>
@@ -14,8 +26,8 @@ useHead({
   </ClientOnly>
   <main>
     <VRow no-gutters justify="center">
-      <VCol cols="12" sm="12" md="6" class="d-flex align-center py-2">
-        <ProductsList />
+      <VCol cols="12" sm="12" md="6" class="d-md-flex align-center py-2">
+        <ProductsList :list="list" />
       </VCol>
       <VCol cols="12" sm="12" md="6" class="d-flex align-center py-2">
         <ProductsShelves />

@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { clsx } from "clsx";
+import { getNutritionPercentage } from "./helpers";
+
 const isFavorite = ref(true);
-const total = ref(0);
 const loading = ref(false);
+const total = ref(0);
 
 const nutriments = ref({
   energy: 0,
@@ -28,6 +30,16 @@ const onAddToCart = () => {
     loading.value = false;
   }, 1_000);
 };
+
+defineProps<{
+  image: string;
+  id: string;
+  title: string;
+  energy: number;
+  protein: number;
+  fats: number;
+  carbs: number;
+}>();
 </script>
 
 <template>
@@ -38,17 +50,17 @@ const onAddToCart = () => {
       @click="isFavorite = !isFavorite"
     />
     <div class="image">
-      <img src="/images/bananas.png" alt="Product image" />
+      <img :src="image" alt="Product image" />
     </div>
-    <h2 class="name">Bananas, good quality</h2>
+    <h2 class="name">{{ $props.title }}</h2>
     <div class="nutriments">
       <div class="nutriment-item energy">
         <VProgressCircular
           rotate="180"
-          :model-value="nutriments.energy"
+          :model-value="getNutritionPercentage(energy, 'energy')"
           class="nutriment-stat"
           ><div class="nutriment-stat--inner">
-            550<br />kcal
+            {{ energy }}<br />kcal
           </div></VProgressCircular
         >
         <div class="stat-name">Energy</div>
@@ -56,27 +68,33 @@ const onAddToCart = () => {
       <div class="nutriment-item protein">
         <VProgressCircular
           rotate="180"
-          :model-value="nutriments.protein"
+          :model-value="getNutritionPercentage(protein, 'protein')"
           class="nutriment-stat"
-          ><div class="nutriment-stat--inner">33g</div></VProgressCircular
+          ><div class="nutriment-stat--inner">
+            {{ protein }}g
+          </div></VProgressCircular
         >
         <div class="stat-name">Protein</div>
       </div>
       <div class="nutriment-item fat">
         <VProgressCircular
           rotate="180"
-          :model-value="nutriments.fats"
+          :model-value="getNutritionPercentage(fats, 'fat')"
           class="nutriment-stat"
-          ><div class="nutriment-stat--inner">10g</div></VProgressCircular
+          ><div class="nutriment-stat--inner">
+            {{ fats }}g
+          </div></VProgressCircular
         >
         <div class="stat-name">Fat</div>
       </div>
       <div class="nutriment-item carbs">
         <VProgressCircular
           rotate="180"
-          :model-value="nutriments.carbs"
+          :model-value="getNutritionPercentage(carbs, 'carbs')"
           class="nutriment-stat"
-          ><div class="nutriment-stat--inner">10g</div></VProgressCircular
+          ><div class="nutriment-stat--inner">
+            {{ carbs }}g
+          </div></VProgressCircular
         >
         <div class="stat-name">Carbs</div>
       </div>
@@ -129,6 +147,7 @@ const onAddToCart = () => {
   padding: 15px 12px 10px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 10px;
   aspect-ratio: 165 / 236;
 

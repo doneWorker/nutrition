@@ -1,39 +1,50 @@
-<script setup>
+<script lang="ts" setup>
 import clsx from "clsx";
+import { onMounted } from "vue";
 
-const nutriments = [
+type NutrimentItem = { id: string; name: string; value?: number };
+let nutriments = ref<NutrimentItem[]>([
   {
     id: "energy",
-    name: "Calories",
-    value: 55,
+    name: "Energy",
   },
   {
     id: "protein",
     name: "Protein",
-    value: 10,
   },
   {
     id: "fat",
     name: "Fat",
-    value: 80,
   },
   {
     id: "carbs",
     name: "Carbs",
-    value: 30,
   },
-];
+]);
+
+const rand = (from: number, to: number): number => {
+  const range = to - from + 1;
+  return Math.floor(Math.random() * range) + from;
+};
+
+onMounted(() => {
+  const setValues = () => {
+    nutriments.value = nutriments.value.map((nutriment) => {
+      return { ...nutriment, value: rand(30, 100) };
+    });
+  };
+
+  setTimeout(setValues, 2_000);
+});
 </script>
 
 <template>
   <div class="nutriment-requirements">
     <div class="stats">
-      <VProgressLinear
-        :class="clsx('stats-item', stat.id)"
-        v-for="stat in nutriments"
-        :model-value="stat.value"
-        height="8"
-      />
+      <div :class="clsx('stats-item', stat.id)" v-for="stat in nutriments">
+        <VProgressLinear :model-value="stat?.value || 0" height="8" />
+        {{ stat.name }}
+      </div>
     </div>
     <VBtn class="settings-button" variant="text" icon="mdi-cog-outline" />
   </div>
@@ -56,8 +67,18 @@ const nutriments = [
     align-items: center;
     gap: 2px;
     padding: 0 15px;
+    margin-top: 11px;
 
     &-item {
+      font-size: 10px;
+      font-family: Inter;
+      font-weight: 500;
+      --v-border-opacity: 1;
+
+      .v-progress-linear {
+        transition-duration: 0.75s;
+      }
+
       &.energy {
         color: $red-normal;
       }
@@ -77,6 +98,7 @@ const nutriments = [
     width: 40px;
     height: 40px;
 
+    font-size: 12px;
     border-left: 1px solid $grey-light;
     border-radius: 0;
     color: $grey-normal;
