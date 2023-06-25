@@ -44,11 +44,6 @@ defineProps<{
 
 <template>
   <div class="item">
-    <VIcon
-      :icon="isFavorite ? 'mdi-heart' : 'mdi-heart-outline'"
-      :class="clsx('favorite', isFavorite && 'active')"
-      @click="isFavorite = !isFavorite"
-    />
     <div class="image">
       <img :src="image" alt="Product image" />
     </div>
@@ -126,21 +121,31 @@ defineProps<{
         <span class="unit">kg</span>
       </div>
     </div>
-    <VBtn
-      class="add-to-cart text-capitalize"
-      color="${green-normal-hover}"
-      size="small"
-      :loading="loading"
-      :disabled="loading"
-      rounded
-      @click="onAddToCart"
-      >Add To Basket</VBtn
-    >
+    <div class="atc-container">
+      <VBtn
+        class="atc-button text-none"
+        color="${green-normal-hover}"
+        size="small"
+        :loading="loading"
+        :disabled="loading"
+        prepend-icon="mdi-plus"
+        rounded
+        @click="onAddToCart"
+      >
+        Add to cart</VBtn
+      >
+      <VIcon
+        :icon="isFavorite ? 'mdi-heart' : 'mdi-heart-outline'"
+        :class="clsx('favorite', isFavorite && 'active')"
+        @click="isFavorite = !isFavorite"
+      />
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+@import "../styles/mixins.scss";
 
 .item {
   position: relative;
@@ -154,190 +159,268 @@ defineProps<{
   border-radius: 8px;
   box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.25);
   background-color: $white;
-}
 
-.nutriments {
-  display: flex;
-  justify-content: space-between;
-
-  .nutriment-item {
-    $item: &;
-
-    width: 32px;
+  .nutriments {
     display: flex;
-    flex-direction: column;
-    text-align: center;
+    justify-content: space-between;
 
-    .stat-name {
-      margin-top: 2px;
-      font-size: 7px;
-      font-weight: bold;
-    }
-    .nutriment-stat {
-      &::v-deep .v-progress-circular__overlay {
-        stroke-linecap: round;
-        transition-duration: 0.8s;
-      }
+    .nutriment-item {
+      $item: &;
 
-      &--inner {
-        font-size: 6px;
-        font-weight: 600;
-        line-height: 1;
-      }
-    }
-
-    &.energy {
-      .stat-name {
-        color: $red-normal;
-      }
-
-      .nutriment-stat {
-        &::v-deep .v-progress-circular__underlay {
-          color: $red-light-active;
-        }
-
-        &::v-deep .v-progress-circular__overlay {
-          color: $red-normal-hover;
-        }
-      }
-
-      .nutriment-stat--inner {
-        color: $red-dark-hover;
-      }
-    }
-
-    &.protein {
-      .stat-name {
-        color: $green-normal;
-      }
-
-      .nutriment-stat {
-        &::v-deep .v-progress-circular__underlay {
-          color: $green-light-active;
-        }
-
-        &::v-deep .v-progress-circular__overlay {
-          color: $green-normal-active;
-        }
-      }
-
-      .nutriment-stat--inner {
-        color: $green-dark-active;
-      }
-    }
-
-    &.fat {
-      .stat-name {
-        color: $yellow-normal;
-      }
-
-      .nutriment-stat {
-        &::v-deep .v-progress-circular__underlay {
-          color: $yellow-light-active;
-        }
-
-        &::v-deep .v-progress-circular__overlay {
-          color: $yellow-normal-hover;
-        }
-      }
-
-      .nutriment-stat--inner {
-        color: $yellow-dark-active;
-      }
-    }
-
-    &.carbs {
-      .stat-name {
-        color: $blue-normal;
-      }
-
-      .nutriment-stat {
-        &::v-deep .v-progress-circular__underlay {
-          color: $blue-light-active;
-        }
-
-        &::v-deep .v-progress-circular__overlay {
-          color: $blue-normal-hover;
-        }
-      }
-
-      .nutriment-stat--inner {
-        color: $blue-dark-active;
-      }
-    }
-  }
-}
-
-.order-detail {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  font-size: 12px;
-  font-weight: 500;
-  color: $violet-dark;
-
-  .quantity {
-    display: flex;
-    align-items: center;
-    gap: 1ch;
-
-    .qnt-amount {
+      width: 32px;
       display: flex;
-      justify-content: center;
-      width: 2ch;
-      font-size: 12px;
+      flex-direction: column;
+      text-align: center;
+
+      .stat-name {
+        margin-top: 2px;
+        font-size: 7px;
+        font-weight: bold;
+      }
+      .nutriment-stat {
+        &::v-deep .v-progress-circular__overlay {
+          stroke-linecap: round;
+          transition-duration: 0.8s;
+        }
+
+        &--inner {
+          font-size: 6px;
+          font-weight: 600;
+          line-height: 1;
+        }
+      }
+
+      &.energy {
+        .stat-name {
+          color: $red-normal;
+        }
+
+        .nutriment-stat {
+          &::v-deep .v-progress-circular__underlay {
+            color: $red-light-active;
+          }
+
+          &::v-deep .v-progress-circular__overlay {
+            color: $red-normal-hover;
+          }
+        }
+
+        .nutriment-stat--inner {
+          color: $red-dark-hover;
+        }
+      }
+
+      &.protein {
+        .stat-name {
+          color: $green-normal;
+        }
+
+        .nutriment-stat {
+          &::v-deep .v-progress-circular__underlay {
+            color: $green-light-active;
+          }
+
+          &::v-deep .v-progress-circular__overlay {
+            color: $green-normal-active;
+          }
+        }
+
+        .nutriment-stat--inner {
+          color: $green-dark-active;
+        }
+      }
+
+      &.fat {
+        .stat-name {
+          color: $yellow-normal;
+        }
+
+        .nutriment-stat {
+          &::v-deep .v-progress-circular__underlay {
+            color: $yellow-light-active;
+          }
+
+          &::v-deep .v-progress-circular__overlay {
+            color: $yellow-normal-hover;
+          }
+        }
+
+        .nutriment-stat--inner {
+          color: $yellow-dark-active;
+        }
+      }
+
+      &.carbs {
+        .stat-name {
+          color: $blue-normal;
+        }
+
+        .nutriment-stat {
+          &::v-deep .v-progress-circular__underlay {
+            color: $blue-light-active;
+          }
+
+          &::v-deep .v-progress-circular__overlay {
+            color: $blue-normal-hover;
+          }
+        }
+
+        .nutriment-stat--inner {
+          color: $blue-dark-active;
+        }
+      }
     }
+  }
 
-    .qnt-btn {
-      width: 20px;
-      height: 20px;
-      line-height: 20px;
-      font-weight: 600;
+  .order-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-      font-size: 8px;
-      color: $green-dark;
-      background-color: $green-light-hover;
+    font-size: 12px;
+    font-weight: 600;
+    color: $violet-dark;
+
+    .quantity {
+      display: flex;
+      align-items: center;
+      gap: 1ch;
+
+      .qnt-amount {
+        display: flex;
+        justify-content: center;
+        width: 2ch;
+      }
+
+      .qnt-btn {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+
+        font-size: 8px;
+        color: $green-dark;
+        background-color: $green-light-hover;
+      }
     }
   }
 
-  .price {
-    font-weight: 500;
+  .favorite {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+
+    color: $grey-normal;
+    border-radius: 50%;
+
+    &.active {
+      color: $red-normal-hover;
+    }
   }
-}
 
-.favorite {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-
-  color: $grey-normal;
-
-  &.active {
-    color: $red-normal-hover;
-  }
-}
-
-.add-to-cart {
-  max-width: 100%;
-  font-size: 11px;
-  background: $green-normal-hover;
-  color: $white;
-}
-
-.name {
-  font-size: 14px;
-  line-height: 14/16;
-}
-
-.image {
-  width: 100%;
-  height: 80px;
-
-  img {
+  .atc-button {
     width: 100%;
-    height: 100%;
-    object-fit: contain;
+    flex-shrink: 1;
+
+    font-size: 11px;
+    background: $green-normal-hover;
+    color: $white;
+  }
+
+  .name {
+    font-size: 14px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+  .image {
+    width: 100%;
+    height: 80px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  @include from-breakpoint("sm") {
+    border-radius: 16px;
+    padding: 20px 15px;
+    gap: 15px;
+    font-size: 16px;
+    font-weight: 600;
+
+    .image {
+      height: 99px;
+    }
+
+    .name {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .atc-container {
+      display: flex;
+      gap: 10px;
+
+      .atc-button {
+        height: 30px;
+
+        font-weight: inherit;
+        background-color: $green-normal-hover;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.35);
+      }
+
+      .favorite {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 30px;
+        height: 30px;
+        flex-shrink: 0;
+        font-size: 16px;
+
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+        background-color: $red-light;
+      }
+    }
+
+    .order-detail {
+      .quantity {
+        gap: 0;
+
+        border-radius: 25px;
+        overflow: hidden;
+        color: $white;
+        background-color: $green-normal;
+
+        .qnt-amount {
+          width: 25px;
+        }
+
+        .qnt-btn {
+          width: 25px;
+          height: 25px;
+          border-radius: 0;
+
+          color: $white;
+          background-color: $green-dark;
+        }
+      }
+
+      .price {
+        height: 25px;
+        line-height: 25px;
+        padding: 0 8px;
+        border-radius: 25px;
+
+        color: $blue-dark;
+        background-color: $blue-light-hover;
+      }
+    }
   }
 }
 </style>

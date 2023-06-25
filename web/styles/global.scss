@@ -1,12 +1,8 @@
+// Fonts
 @font-face {
   font-family: Inter;
-  src: url(/fonts/Inter/Inter-Bold.ttf);
-  font-weight: bold;
-}
-@font-face {
-  font-family: Inter;
-  src: url(/fonts/Inter/Inter-Medium.ttf);
-  font-weight: 500;
+  src: url(/fonts/Inter/Inter-Light.ttf);
+  font-weight: 300;
 }
 @font-face {
   font-family: Inter;
@@ -15,8 +11,18 @@
 }
 @font-face {
   font-family: Inter;
-  src: url(/fonts/Inter/Inter-Light.ttf);
-  font-weight: 300;
+  src: url(/fonts/Inter/Inter-Medium.ttf);
+  font-weight: 500;
+}
+@font-face {
+  font-family: Inter;
+  src: url(/fonts/Inter/Inter-SemiBold.ttf);
+  font-weight: 600;
+}
+@font-face {
+  font-family: Inter;
+  src: url(/fonts/Inter/Inter-Bold.ttf);
+  font-weight: bold;
 }
 
 @font-face {
@@ -30,6 +36,7 @@
   font-weight: 500;
 }
 
+// General styles
 body {
   font-family: Inter, sans-serif;
   font-weight: 400;

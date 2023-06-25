@@ -40,6 +40,7 @@ const onSearch = () => {
           class="text-capitalize"
           variant="outlined"
           prepend-icon="mdi-square-edit-outline"
+          height="33"
           >Change requirements</VBtn
         >
         <VBtn icon class="ml-6" size="small">

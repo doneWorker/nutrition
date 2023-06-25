@@ -1,3 +1,14 @@
+// Breakpoints
+$breakpoints: (
+  "xxs": 400px,
+  "xs": 600px,
+  "sm": 960px,
+  "md": 1280px,
+  "lg": 1920px,
+  "xl": 2560px,
+  "xxl": 9999px,
+);
+
 // Green
 $green-light: #e9f8f4;
 $green-light-hover: #def5ef;

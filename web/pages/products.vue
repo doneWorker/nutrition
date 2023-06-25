@@ -8,9 +8,12 @@ useHead({
   title: "Products | Main",
 });
 
-const { data: products, error } = await $fetch("/api/products").catch(
-  (error) => error.data
-);
+const { data: products, error } = await $fetch("/api/products", {
+  method: "GET",
+  params: {
+    limit: 10,
+  },
+}).catch((error) => error.data);
 
 const list = (products || []).map((_product) => ({
   ..._product,
@@ -41,12 +44,13 @@ const list = (products || []).map((_product) => ({
 
 <style lang="scss">
 @import "../styles/variables.scss";
+@import "../styles/mixins.scss";
 
 main {
   min-height: calc(100vh - 60px);
 }
 
-@media screen and (min-width: 400px) {
+@include from-breakpoint("sm") {
   main {
     min-height: calc(100vh - 66px);
     background-color: $green-light;

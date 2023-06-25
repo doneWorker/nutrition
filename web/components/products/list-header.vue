@@ -1,11 +1,18 @@
 <script lang="ts" setup>
+import clsx from "clsx";
+
 defineProps<{
   categoryTitle: string;
+  class: string;
 }>();
 </script>
 
 <template>
-  <div class="d-flex justify-space-between align-center products-header">
+  <div
+    :class="
+      clsx('justify-space-between align-center products-header', $props.class)
+    "
+  >
     <h2 class="category">{{ $props.categoryTitle }}</h2>
     <VBtn class="filter-btn" icon="mdi-filter" elevation="0" size="30" />
   </div>

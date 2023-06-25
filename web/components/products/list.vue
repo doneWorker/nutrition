@@ -17,7 +17,10 @@ defineProps<{
 </script>
 
 <template>
-  <ProductsListHeader categoryTitle="Fruits and vegetables" />
+  <ProductsListHeader
+    class="d-flex d-sm-none"
+    categoryTitle="Fruits and vegetables"
+  />
   <div class="products-list py-2 pb-10">
     <ProductsItem
       v-for="product in $props.list"
@@ -34,12 +37,22 @@ defineProps<{
 </template>
 
 <style lang="scss">
+@import "../styles/mixins.scss";
+
 .products-list {
   padding: 0 10px;
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   grid-gap: 25px 10px;
   padding-bottom: 100px;
+  grid-template-columns: repeat(2, 1fr);
+
+  @include from-breakpoint("sm") {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include from-breakpoint("md") {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 </style>
