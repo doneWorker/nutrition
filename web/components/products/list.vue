@@ -24,6 +24,7 @@ defineProps<{
   <div class="products-list py-2 pb-10">
     <ProductsItem
       v-for="product in $props.list"
+      :v-model="product"
       :key="product.id"
       :id="product.id"
       :image="product.image"
@@ -40,7 +41,6 @@ defineProps<{
 @import "../styles/mixins.scss";
 
 .products-list {
-  padding: 0 10px;
   width: 100%;
   display: grid;
   grid-gap: 25px 10px;
@@ -48,6 +48,7 @@ defineProps<{
   grid-template-columns: repeat(2, 1fr);
 
   @include from-breakpoint("sm") {
+    margin-top: 20px;
     grid-template-columns: repeat(3, 1fr);
   }
 

@@ -10,7 +10,7 @@ const onSearch = () => {
 </script>
 
 <template>
-  <header className="header">
+  <header class="header">
     <VRow no-gutters justify="center">
       <VCol class="d-flex align-center py-2">
         <VBtn

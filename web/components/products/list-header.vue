@@ -22,8 +22,6 @@ defineProps<{
 @import "../styles/variables.scss";
 
 .products-header {
-  margin: 10px;
-
   .category {
     font-size: 18px;
   }

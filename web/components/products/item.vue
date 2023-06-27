@@ -324,6 +324,10 @@ defineProps<{
     font-size: 11px;
     background: $green-normal-hover;
     color: $white;
+
+    &::v-deep .v-btn__prepend {
+      display: none;
+    }
   }
 
   .name {
@@ -372,6 +376,10 @@ defineProps<{
         font-weight: inherit;
         background-color: $green-normal-hover;
         box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.35);
+
+        &::v-deep .v-btn__prepend {
+          display: block;
+        }
       }
 
       .favorite {

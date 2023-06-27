@@ -1,6 +1,5 @@
 <script setup>
 import { useDisplay } from "vuetify";
-// import { fetchProducts } from "~/api/products";
 
 const { xs } = useDisplay();
 
@@ -21,18 +20,33 @@ const list = (products || []).map((_product) => ({
   title: _product.name,
   image: _product.image_url,
 }));
+
+const tags = reactive([
+  { id: "all", title: "All", enabled: true },
+  { id: "fruits", title: "Fruits", enabled: false },
+  { id: "vegetables", title: "Vegetables", enabled: true },
+]);
+
+const breadcrumbs = [
+  { title: "Home", url: "/" },
+  { title: "Products", url: "/products" },
+  { title: "Fruits and vegetables", url: "/products/fruits-and-vegetables" },
+];
 </script>
 <template>
   <ClientOnly>
-    <HeaderDesktopHeader v-if="!xs" />
-    <HeaderMobileHeader v-if="xs" />
+    <HeaderDesktopHeader class="d-none d-md-flex" />
+    <HeaderMobileHeader class="d-md-none" />
   </ClientOnly>
+
   <main>
     <VRow no-gutters justify="center">
-      <VCol cols="12" sm="12" md="6" class="d-md-flex align-center py-2">
+      <VCol cols="12" sm="12" md="6" class="align-center">
+        <ProductsFilters class="d-none d-md-block" :breadcrumbs="breadcrumbs" />
+        <ProductsTags class="d-none d-md-block" :tags="tags" />
         <ProductsList :list="list" />
       </VCol>
-      <VCol cols="12" sm="12" md="6" class="d-flex align-center py-2">
+      <VCol cols="12" sm="12" md="6" class="d-flex align-center">
         <ProductsShelves />
       </VCol>
     </VRow>
@@ -42,17 +56,19 @@ const list = (products || []).map((_product) => ({
   </ClientOnly>
 </template>
 
-<style lang="scss">
-@import "../styles/variables.scss";
+<style lang="scss" scoped>
 @import "../styles/mixins.scss";
 
 main {
   min-height: calc(100vh - 60px);
+  padding: 10px;
 }
 
 @include from-breakpoint("sm") {
   main {
     min-height: calc(100vh - 66px);
+    padding: 20px 30px;
+
     background-color: $green-light;
   }
 }
