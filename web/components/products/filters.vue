@@ -18,11 +18,7 @@ defineProps<{
 <template>
   <div class="filters">
     <div class="filters__inner d-flex justify-space-between align-center">
-      <div class="breadcrumbs">
-        <span class="breadcrumbs__item" v-for="item in $props.breadcrumbs">
-          <a :href="item.url">{{ item.title }}</a>
-        </span>
-      </div>
+      <VBreadcrumbs :items="$props.breadcrumbs" class="breadcrumbs" />
       <div class="options">
         <VBtnToggle
           v-model="viewMode.view"

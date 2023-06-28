@@ -10,7 +10,7 @@ useHead({
 const { data: products, error } = await $fetch("/api/products", {
   method: "GET",
   params: {
-    limit: 10,
+    limit: 20,
   },
 }).catch((error) => error.data);
 
@@ -28,9 +28,9 @@ const tags = reactive([
 ]);
 
 const breadcrumbs = [
-  { title: "Home", url: "/" },
-  { title: "Products", url: "/products" },
-  { title: "Fruits and vegetables", url: "/products/fruits-and-vegetables" },
+  { title: "Home", href: "/" },
+  { title: "Products", href: "/products" },
+  { title: "Fruits and vegetables", href: "/products/fruits-and-vegetables" },
 ];
 
 const viewMode = reactive({ view: "grid" });
@@ -50,7 +50,13 @@ const onSortOrder = () => {
 
   <main>
     <VRow no-gutters justify="center">
-      <VCol cols="12" sm="12" md="6" class="align-center py-3 px-3 px-md-8">
+      <VCol
+        cols="12"
+        sm="12"
+        md="6"
+        class="align-center py-3 px-3 px-md-8"
+        id="products"
+      >
         <ProductsFilters
           class="d-none d-md-block"
           :breadcrumbs="breadcrumbs"
@@ -67,7 +73,7 @@ const onSortOrder = () => {
         md="6"
         class="d-flex align-center py-3 px-3 px-md-8"
       >
-        <ProductsShelves />
+        <ProductsShowcase totalItems="15" totalBudget="1000" totalSpent="500" />
       </VCol>
     </VRow>
   </main>
@@ -89,6 +95,11 @@ main {
     padding: 20px 0;
 
     background-color: $green-light;
+  }
+
+  #products {
+    overflow: scroll;
+    height: calc(100vh - 66px - 12px - 20px);
   }
 }
 </style>

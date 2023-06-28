@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import clsx from "clsx";
 import BasketIcon from "~/assets/icons/basket.svg";
 import NutritionRequirements from "./nutriment-requirements.vue";
