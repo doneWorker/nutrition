@@ -7,6 +7,15 @@ defineProps<{
 }>();
 
 const viewMode = reactive({ view: "grid" });
+const sortOptions = reactive({ sortBy: "protein", sortOrder: "none" });
+const onSortOrder = () => {
+  sortOptions.sortOrder =
+    sortOptions.sortOrder === "asc"
+      ? "desc"
+      : sortOptions.sortOrder === "desc"
+      ? "none"
+      : "asc";
+};
 </script>
 
 <template>
@@ -32,19 +41,31 @@ const viewMode = reactive({ view: "grid" });
             size="33"
           />
         </VBtnToggle>
-        <VSelect
-          class="sort"
-          append-icon="mdi-chevron-down"
-          density="compact"
-          :items="[
-            'California',
-            'Colorado',
-            'Florida',
-            'Georgia',
-            'Texas',
-            'Wyoming',
-          ]"
-        />
+        <VBtnToggle v-model="viewMode.view" class="sort">
+          <VSelect
+            class="sort__by"
+            density="compact"
+            menu-icon="none"
+            variant="solo"
+            hide-details
+            :items="['Relevance', 'Protein', 'Fat', 'Carbs', 'Energy']"
+            v-model="sortOptions.sortBy"
+          />
+          <VBtn
+            :icon="
+              sortOptions.sortOrder === 'asc'
+                ? 'mdi-sort-ascending'
+                : sortOptions.sortOrder === 'desc'
+                ? 'mdi-sort-descending'
+                : 'mdi-sort-variant-off'
+            "
+            @click="onSortOrder"
+            class="sort__order"
+            width="37"
+            height="33"
+            value="asc"
+          />
+        </VBtnToggle>
       </div>
     </div>
   </div>
@@ -69,12 +90,22 @@ const viewMode = reactive({ view: "grid" });
 
 .options {
   display: flex;
+  gap: 10px;
+  height: 33px;
 
   .view {
     &__button {
       background-color: $green-normal-active;
       color: rgba($white, 0.5);
       font-size: 14px;
+
+      &:nth-child(1) {
+        border-radius: 8px 0 0 8px;
+      }
+
+      &:nth-child(2) {
+        border-radius: 0 8px 8px 0;
+      }
 
       &.v-btn--active {
         background-color: $green-dark-active;
@@ -84,8 +115,38 @@ const viewMode = reactive({ view: "grid" });
   }
 
   .sort {
-    height: 33px;
-    background-color: red;
+    &__by {
+      height: 33px;
+
+      &::v-deep .v-field {
+        height: 33px;
+
+        border-radius: 8px 0 0 8px;
+        line-height: 33px;
+        font-weight: 500;
+        box-shadow: none;
+        background-color: $green-dark;
+        color: $white;
+
+        .v-field__append-inner {
+          display: none;
+        }
+
+        .v-field__input {
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+      }
+    }
+
+    &__order {
+      width: 37px;
+      height: 33px;
+
+      border-radius: 0 8px 8px 0;
+      background-color: $green-dark-active;
+      color: $white;
+    }
   }
 }
 </style>

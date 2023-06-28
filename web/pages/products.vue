@@ -41,12 +41,17 @@ const breadcrumbs = [
 
   <main>
     <VRow no-gutters justify="center">
-      <VCol cols="12" sm="12" md="6" class="align-center">
+      <VCol cols="12" sm="12" md="6" class="align-center py-3 px-3 px-md-8">
         <ProductsFilters class="d-none d-md-block" :breadcrumbs="breadcrumbs" />
         <ProductsTags class="d-none d-md-block" :tags="tags" />
         <ProductsList :list="list" />
       </VCol>
-      <VCol cols="12" sm="12" md="6" class="d-flex align-center">
+      <VCol
+        cols="12"
+        sm="12"
+        md="6"
+        class="d-flex align-center py-3 px-3 px-md-8"
+      >
         <ProductsShelves />
       </VCol>
     </VRow>
@@ -61,13 +66,12 @@ const breadcrumbs = [
 
 main {
   min-height: calc(100vh - 60px);
-  padding: 10px;
 }
 
 @include from-breakpoint("sm") {
   main {
     min-height: calc(100vh - 66px);
-    padding: 20px 30px;
+    padding: 20px 0;
 
     background-color: $green-light;
   }
