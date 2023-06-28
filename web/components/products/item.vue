@@ -32,6 +32,7 @@ const onAddToCart = () => {
 };
 
 defineProps<{
+  variant?: "grid" | "list";
   image: string;
   id: string;
   title: string;
@@ -43,7 +44,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="item">
+  <div :class="clsx('item', $props.variant === 'list' && 'item--list')">
     <div class="image">
       <img :src="image" alt="Product image" />
     </div>
@@ -123,8 +124,8 @@ defineProps<{
     </div>
     <div class="atc-container">
       <VBtn
+        v-if="$props.variant === 'grid'"
         class="atc-button text-none"
-        color="${green-normal-hover}"
         size="small"
         :loading="loading"
         :disabled="loading"
@@ -134,6 +135,16 @@ defineProps<{
       >
         Add to cart</VBtn
       >
+      <VBtn
+        v-if="$props.variant === 'list'"
+        class="atc-button"
+        size="small"
+        :loading="loading"
+        :disabled="loading"
+        icon="mdi-plus"
+        rounded
+        @click="onAddToCart"
+      />
       <VIcon
         :icon="isFavorite ? 'mdi-heart' : 'mdi-heart-outline'"
         :class="clsx('favorite', isFavorite && 'active')"
@@ -427,6 +438,47 @@ defineProps<{
 
         color: $blue-dark;
         background-color: $blue-light-hover;
+      }
+    }
+
+    &--list {
+      padding: 0 15px;
+      flex-direction: row;
+      align-items: center;
+      aspect-ratio: unset;
+      height: 50px;
+      gap: 15px;
+
+      border-radius: 8px;
+      box-shadow: none;
+      border: 1px solid $green-normal-hover;
+      font-size: 14px;
+
+      .image {
+        flex-shrink: 0;
+        width: 50px;
+        height: 50px;
+      }
+
+      .name {
+        font-size: 12px;
+        width: 100%;
+      }
+
+      .order-detail {
+        gap: 5px;
+      }
+
+      .nutriments {
+        gap: 5px;
+
+        .stat-name {
+          display: none;
+        }
+      }
+
+      .atc-button {
+        width: 30px;
       }
     }
   }

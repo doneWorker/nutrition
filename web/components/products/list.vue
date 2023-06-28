@@ -4,6 +4,7 @@ defineProps<{
     title: string;
     id: string;
   };
+  variant?: "grid" | "list";
   list: {
     title: string;
     id: string;
@@ -21,10 +22,10 @@ defineProps<{
     class="d-flex d-sm-none"
     categoryTitle="Fruits and vegetables"
   />
-  <div class="products-list py-2 pb-10">
+  <div :class="`products-list products-list--${$props.variant} py-2 pb-10`">
     <ProductsItem
       v-for="product in $props.list"
-      :v-model="product"
+      :variant="$props.variant"
       :key="product.id"
       :id="product.id"
       :image="product.image"
@@ -37,7 +38,7 @@ defineProps<{
   </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import "../styles/mixins.scss";
 
 .products-list {
@@ -50,6 +51,11 @@ defineProps<{
   @include from-breakpoint("sm") {
     margin-top: 20px;
     grid-template-columns: repeat(3, 1fr);
+
+    &--list {
+      grid-template-columns: 1fr !important;
+      grid-gap: 5px 0;
+    }
   }
 
   @include from-breakpoint("md") {

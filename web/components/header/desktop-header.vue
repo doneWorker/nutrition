@@ -34,7 +34,13 @@ const onSearch = () => {
           @click:append-inner="onSearch"
         />
       </VCol>
-      <VDivider vertical />
+      <VDivider
+        class="border-opacity-75 mt-1"
+        vertical
+        thickness="2"
+        length="45"
+        color="white"
+      />
       <VCol class="d-flex justify-end align-center">
         <VBtn
           class="text-capitalize"

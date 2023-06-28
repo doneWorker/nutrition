@@ -1,21 +1,18 @@
 <script setup lang="ts">
-defineProps<{
-  breadcrumbs: {
-    title: string;
-    url: string;
-  }[];
-}>();
+type Breadcrumbs = {
+  title: string;
+  url: string;
+}[];
 
-const viewMode = reactive({ view: "grid" });
-const sortOptions = reactive({ sortBy: "protein", sortOrder: "none" });
-const onSortOrder = () => {
-  sortOptions.sortOrder =
-    sortOptions.sortOrder === "asc"
-      ? "desc"
-      : sortOptions.sortOrder === "desc"
-      ? "none"
-      : "asc";
-};
+defineProps<{
+  breadcrumbs: Breadcrumbs;
+  viewMode: { view: "grid" | "list" };
+  sortOptions: {
+    sortBy: "relevance" | "protein" | "carbs" | "fats";
+    sortOrder: "none" | "asc" | "desc";
+  };
+  onSortOrder: () => void;
+}>();
 </script>
 
 <template>
@@ -27,7 +24,12 @@ const onSortOrder = () => {
         </span>
       </div>
       <div class="options">
-        <VBtnToggle v-model="viewMode.view" class="view" density="compact">
+        <VBtnToggle
+          v-model="viewMode.view"
+          class="view"
+          density="compact"
+          mandatory
+        >
           <VBtn
             icon="mdi-view-grid"
             value="grid"
@@ -41,7 +43,7 @@ const onSortOrder = () => {
             size="33"
           />
         </VBtnToggle>
-        <VBtnToggle v-model="viewMode.view" class="sort">
+        <VBtnToggle class="sort">
           <VSelect
             class="sort__by"
             density="compact"
@@ -123,6 +125,7 @@ const onSortOrder = () => {
 
         border-radius: 8px 0 0 8px;
         line-height: 33px;
+        font-size: 14px;
         font-weight: 500;
         box-shadow: none;
         background-color: $green-dark;
@@ -135,6 +138,7 @@ const onSortOrder = () => {
         .v-field__input {
           padding-top: 0;
           padding-bottom: 0;
+          padding-right: 0;
         }
       }
     }

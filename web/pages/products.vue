@@ -14,7 +14,7 @@ const { data: products, error } = await $fetch("/api/products", {
   },
 }).catch((error) => error.data);
 
-const list = (products || []).map((_product) => ({
+const productList = (products || []).map((_product) => ({
   ..._product,
   id: _product.id,
   title: _product.name,
@@ -32,6 +32,15 @@ const breadcrumbs = [
   { title: "Products", url: "/products" },
   { title: "Fruits and vegetables", url: "/products/fruits-and-vegetables" },
 ];
+
+const viewMode = reactive({ view: "grid" });
+const sortOptions = reactive({ sortBy: "protein", sortOrder: "none" });
+
+const onSortOrder = () => {
+  if (sortOptions.sortOrder === "none") sortOptions.sortOrder = "asc";
+  else if (sortOptions.sortOrder === "asc") sortOptions.sortOrder = "desc";
+  else if (sortOptions.sortOrder === "desc") sortOptions.sortOrder = "none";
+};
 </script>
 <template>
   <ClientOnly>
@@ -42,9 +51,15 @@ const breadcrumbs = [
   <main>
     <VRow no-gutters justify="center">
       <VCol cols="12" sm="12" md="6" class="align-center py-3 px-3 px-md-8">
-        <ProductsFilters class="d-none d-md-block" :breadcrumbs="breadcrumbs" />
+        <ProductsFilters
+          class="d-none d-md-block"
+          :breadcrumbs="breadcrumbs"
+          :viewMode="viewMode"
+          :sortOptions="sortOptions"
+          @sortOrder="onSortOrder"
+        />
         <ProductsTags class="d-none d-md-block" :tags="tags" />
-        <ProductsList :list="list" />
+        <ProductsList :list="productList" :variant="viewMode.view" />
       </VCol>
       <VCol
         cols="12"
