@@ -1,19 +1,13 @@
 <script setup lang="ts">
+import { ProductItemModel } from "~/types/products";
+
 defineProps<{
   category?: {
     title: string;
     id: string;
   };
-  variant?: "grid" | "list";
-  list: {
-    title: string;
-    id: string;
-    image: string;
-    calories: number;
-    protein: number;
-    total_carbohydrates: number;
-    total_fat: number;
-  }[];
+  variant: "grid" | "list";
+  list: ProductItemModel[];
 }>();
 </script>
 
@@ -22,18 +16,12 @@ defineProps<{
     class="d-flex d-sm-none"
     categoryTitle="Fruits and vegetables"
   />
-  <div :class="`products-list products-list--${$props.variant} py-2 pb-10`">
+  <div :class="`products-list products-list--${variant} py-2 pb-10`">
     <ProductsItem
-      v-for="product in $props.list"
-      :variant="$props.variant"
+      v-for="product in list"
       :key="product.id"
-      :id="product.id"
-      :image="product.image"
-      :title="product.title"
-      :fats="product.total_fat"
-      :energy="product.calories"
-      :carbs="product.total_carbohydrates"
-      :protein="product.protein"
+      :variant="variant"
+      v-bind="product"
     />
   </div>
 </template>

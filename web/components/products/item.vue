@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { clsx } from "clsx";
 import { getNutritionPercentage } from "./helpers";
+import { useBasket } from "~/composables/use-basket";
+import { ProductItemModel } from "~/types/products";
+
+const { addProduct } = useBasket();
 
 const isFavorite = ref(true);
 const loading = ref(false);
@@ -22,41 +26,23 @@ setTimeout(() => {
   };
 }, 1_000);
 
-const onAddToCart = () => {
-  loading.value = true;
-
-  setTimeout(() => {
-    total.value = 0;
-    loading.value = false;
-  }, 1_000);
-};
-
-defineProps<{
-  variant?: "grid" | "list";
-  image: string;
-  id: string;
-  title: string;
-  energy: number;
-  protein: number;
-  fats: number;
-  carbs: number;
-}>();
+defineProps<ProductItemModel & { variant: "list" | "grid" }>();
 </script>
 
 <template>
-  <div :class="clsx('item', $props.variant === 'list' && 'item--list')">
+  <div :class="clsx('item', variant === 'list' && 'item--list')">
     <div class="image">
-      <img :src="image" alt="Product image" />
+      <img :src="image_url" alt="Product image" />
     </div>
-    <h2 class="name">{{ $props.title }}</h2>
+    <h2 class="name">{{ title }}</h2>
     <div class="nutriments">
       <div class="nutriment-item energy">
         <VProgressCircular
           rotate="180"
-          :model-value="getNutritionPercentage(energy, 'energy')"
+          :model-value="getNutritionPercentage(calories || 0, 'energy')"
           class="nutriment-stat"
           ><div class="nutriment-stat--inner">
-            {{ energy }}<br />kcal
+            {{ calories }}<br />kcal
           </div></VProgressCircular
         >
         <div class="stat-name">Energy</div>
@@ -64,7 +50,7 @@ defineProps<{
       <div class="nutriment-item protein">
         <VProgressCircular
           rotate="180"
-          :model-value="getNutritionPercentage(protein, 'protein')"
+          :model-value="getNutritionPercentage(protein || 0, 'protein')"
           class="nutriment-stat"
           ><div class="nutriment-stat--inner">
             {{ protein }}g
@@ -75,10 +61,10 @@ defineProps<{
       <div class="nutriment-item fat">
         <VProgressCircular
           rotate="180"
-          :model-value="getNutritionPercentage(fats, 'fat')"
+          :model-value="getNutritionPercentage(total_fat || 0, 'fat')"
           class="nutriment-stat"
           ><div class="nutriment-stat--inner">
-            {{ fats }}g
+            {{ total_fat }}g
           </div></VProgressCircular
         >
         <div class="stat-name">Fat</div>
@@ -86,10 +72,12 @@ defineProps<{
       <div class="nutriment-item carbs">
         <VProgressCircular
           rotate="180"
-          :model-value="getNutritionPercentage(carbs, 'carbs')"
+          :model-value="
+            getNutritionPercentage(total_carbohydrates || 0, 'carbs')
+          "
           class="nutriment-stat"
           ><div class="nutriment-stat--inner">
-            {{ carbs }}g
+            {{ total_carbohydrates }}g
           </div></VProgressCircular
         >
         <div class="stat-name">Carbs</div>
@@ -124,26 +112,26 @@ defineProps<{
     </div>
     <div class="atc-container">
       <VBtn
-        v-if="$props.variant === 'grid'"
+        v-if="variant === 'grid'"
         class="atc-button text-none"
         size="small"
         :loading="loading"
         :disabled="loading"
         prepend-icon="mdi-plus"
         rounded
-        @click="onAddToCart"
+        @click="addProduct({ ...$props, quantity: 1 })"
       >
         Add to cart</VBtn
       >
       <VBtn
-        v-if="$props.variant === 'list'"
+        v-if="variant === 'list'"
         class="atc-button"
         size="small"
         :loading="loading"
         :disabled="loading"
         icon="mdi-plus"
         rounded
-        @click="onAddToCart"
+        @click="addProduct({ ...$props, quantity: 1 })"
       />
       <VIcon
         :icon="isFavorite ? 'mdi-heart' : 'mdi-heart-outline'"

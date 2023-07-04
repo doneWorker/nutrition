@@ -3,17 +3,12 @@ import clsx from "clsx";
 
 defineProps<{
   categoryTitle: string;
-  class: string;
 }>();
 </script>
 
 <template>
-  <div
-    :class="
-      clsx('justify-space-between align-center products-header', $props.class)
-    "
-  >
-    <h2 class="category">{{ $props.categoryTitle }}</h2>
+  <div class="justify-space-between align-center products-header">
+    <h2 class="category">{{ categoryTitle }}</h2>
     <VBtn class="filter-btn" icon="mdi-filter" elevation="0" size="30" />
   </div>
 </template>

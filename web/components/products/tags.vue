@@ -14,7 +14,7 @@ defineProps<{
   <div class="tags">
     <div class="inner">
       <VChip
-        v-for="tag in $props.tags"
+        v-for="tag in tags"
         variant="outlined"
         :class="clsx('tag', tag.enabled && 'active')"
         prepend-icon="mdi-check"

@@ -18,7 +18,7 @@ defineProps<{
 <template>
   <div class="filters">
     <div class="filters__inner d-flex justify-space-between align-center">
-      <VBreadcrumbs :items="$props.breadcrumbs" class="breadcrumbs" />
+      <VBreadcrumbs :items="breadcrumbs" class="breadcrumbs" />
       <div class="options">
         <VBtnToggle
           v-model="viewMode.view"

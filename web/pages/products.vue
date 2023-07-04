@@ -14,13 +14,6 @@ const { data: products, error } = await $fetch("/api/products", {
   },
 }).catch((error) => error.data);
 
-const productList = (products || []).map((_product) => ({
-  ..._product,
-  id: _product.id,
-  title: _product.name,
-  image: _product.image_url,
-}));
-
 const tags = reactive([
   { id: "all", title: "All", enabled: true },
   { id: "fruits", title: "Fruits", enabled: false },
@@ -65,7 +58,7 @@ const onSortOrder = () => {
           @sortOrder="onSortOrder"
         />
         <ProductsTags class="d-none d-md-block" :tags="tags" />
-        <ProductsList :list="productList" :variant="viewMode.view" />
+        <ProductsList :list="products" :variant="viewMode.view" />
       </VCol>
       <VCol
         cols="12"
@@ -73,7 +66,9 @@ const onSortOrder = () => {
         md="6"
         class="d-flex align-center py-3 px-3 px-md-8"
       >
-        <ProductsShowcase totalItems="15" totalBudget="1000" totalSpent="500" />
+        <ProductsShowcase
+          :total="{ totalItems: 15, totalBudget: 1000, totalSpent: 500 }"
+        />
       </VCol>
     </VRow>
   </main>

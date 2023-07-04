@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import BasketIcon from "~/assets/icons/basket.svg";
+import { useBasket } from "~/composables/use-basket";
+import BasketItem from "./basket-item.vue";
+import clsx from "clsx";
+
+const { products } = useBasket();
 
 defineProps<{
-  totalItems: number;
-  totalBudget: number;
-  totalSpent: number;
+  total: { totalItems: number; totalBudget: number; totalSpent: number };
 }>();
 </script>
 
@@ -13,19 +16,41 @@ defineProps<{
     <div class="total">
       <div class="total__money">
         <div class="total__money--inner">
-          <span class="total__money--spent">Current: ${{ totalSpent }}</span>
+          <span class="total__money--spent"
+            >Current: ${{ total.totalSpent }}</span
+          >
           <span class="total__money-sep" />
-          <span class="total__money--budget">Budget: ${{ totalBudget }}</span>
+          <span class="total__money--budget"
+            >Budget: ${{ total.totalBudget }}</span
+          >
         </div>
       </div>
       <div class="total__items">
-        <span>Total items: {{ totalItems }}</span>
+        <span>Total items: {{ total.totalItems }}</span>
       </div>
     </div>
     <div class="basket">
-      <div class="basket--inner">
-        <div class="basket__stats"></div>
-        <div class="basket__empty">
+      <div class="'basket--inner'">
+        <div class="basket__stats">energy</div>
+        <div
+          class="basket__products"
+          :style="{
+            gridTemplateColumns: `repeat(${Math.sqrt(
+              products.length
+            ).toFixed()}, 1fr)`,
+            gridTemplateRows: `repeat(${Math.sqrt(
+              products.length
+            ).toFixed()}, 1fr)`,
+          }"
+        >
+          <BasketItem
+            v-for="product in products"
+            :key="product.id"
+            v-bind="product"
+          />
+        </div>
+
+        <div class="basket__empty" v-if="products.length === 0">
           <BasketIcon width="212.5" />
           <span class="basket__empty--text"
             >Currently your basket is empty,<br />please drop items here</span
@@ -130,8 +155,35 @@ defineProps<{
     background-color: $green-light-active;
     border: 4px dashed $green-normal-active;
 
+    &__stats {
+      position: absolute;
+    }
+
     &--inner {
       height: 100%;
+    }
+
+    &__products {
+      display: grid;
+      padding: 25px;
+      /* grid-template-columns: repeat(3, 1fr); */
+      grid-gap: 10px;
+
+      &.grid-1 {
+        grid-template-columns: repeat(1, 1fr);
+      }
+
+      &.grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      &.grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      &.grid-3-plus {
+        grid-template-columns: repeat(4, 1fr);
+      }
     }
 
     &__empty {
