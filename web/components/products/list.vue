@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ProductItemModel } from "~/types/products";
 
 defineProps<{
@@ -26,8 +26,8 @@ defineProps<{
   </div>
 </template>
 
-<style scoped lang="scss">
-@import "../styles/mixins.scss";
+<style lang="scss" scoped>
+@import "styles/mixins.scss";
 
 .products-list {
   width: 100%;

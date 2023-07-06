@@ -1,33 +1,11 @@
 <script lang="ts" setup>
 import clsx from "clsx";
+import { links } from "./constants";
 
 const active = ref("profile");
 
-const links = [
-  {
-    id: "shop",
-    icon: "mdi-cart",
-    text: "Shop",
-  },
-  {
-    id: "list",
-    icon: "mdi-format-list-bulleted",
-    text: "Shopping List",
-  },
-  {
-    id: "saved",
-    icon: "mdi-heart",
-    text: "Saved",
-  },
-  {
-    id: "profile",
-    icon: "mdi-account",
-    text: "Profile",
-  },
-];
-
-const onClick = (e) => {
-  active.value = e.currentTarget.id;
+const onClick = (e: { currentTarget?: HTMLButtonElement & { id: string } }) => {
+  active.value = e.currentTarget?.id!;
 };
 </script>
 
@@ -48,8 +26,8 @@ const onClick = (e) => {
   </footer>
 </template>
 
-<style lang="scss">
-@import "../styles/variables.scss";
+<style lang="scss" scoped>
+@import "styles/variables.scss";
 
 .mobile-nav {
   width: 100vw;
@@ -67,7 +45,7 @@ const onClick = (e) => {
   border-radius: 25px 25px 0px 0px;
 
   button {
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     border-radius: 10px;
     color: $grey-dark;
     opacity: 0.5;

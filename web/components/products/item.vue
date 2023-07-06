@@ -143,8 +143,8 @@ defineProps<ProductItemModel & { variant: "list" | "grid" }>();
 </template>
 
 <style lang="scss" scoped>
-@import "../styles/variables.scss";
-@import "../styles/mixins.scss";
+@import "styles/variables.scss";
+@import "styles/mixins.scss";
 
 .item {
   position: relative;

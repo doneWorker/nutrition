@@ -12,8 +12,8 @@ defineProps<ProductInBasket>();
   </div>
 </template>
 
-<style scoped lang="scss">
-@import "../styles/variables.scss";
+<style lang="scss" scoped>
+@import "styles/variables.scss";
 
 .basket-item {
   background-color: $white;

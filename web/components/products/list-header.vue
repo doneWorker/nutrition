@@ -13,8 +13,8 @@ defineProps<{
   </div>
 </template>
 
-<style scoped lang="scss">
-@import "../styles/variables.scss";
+<style lang="scss" scoped>
+@import "styles/variables.scss";
 
 .products-header {
   .category {

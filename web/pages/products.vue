@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 import { useDisplay } from "vuetify";
 
 const { xs } = useDisplay();
@@ -7,12 +7,15 @@ useHead({
   title: "Products | Main",
 });
 
-const { data: products, error } = await $fetch("/api/products", {
-  method: "GET",
-  params: {
-    limit: 20,
-  },
-}).catch((error) => error.data);
+const { data: products, error } = await $fetch<{ data: unknown }>(
+  "/api/products",
+  {
+    method: "GET",
+    params: {
+      limit: 20,
+    },
+  }
+).catch((error) => error.data);
 
 const tags = reactive([
   { id: "all", title: "All", enabled: true },
@@ -21,13 +24,23 @@ const tags = reactive([
 ]);
 
 const breadcrumbs = [
-  { title: "Home", href: "/" },
-  { title: "Products", href: "/products" },
-  { title: "Fruits and vegetables", href: "/products/fruits-and-vegetables" },
+  { title: "Home", url: "/" },
+  { title: "Products", url: "/products" },
+  { title: "Fruits and vegetables", url: "/products/fruits-and-vegetables" },
 ];
 
-const viewMode = reactive({ view: "grid" });
-const sortOptions = reactive({ sortBy: "protein", sortOrder: "none" });
+const viewMode = reactive<SortOptions["viewMode"]>({ view: "grid" });
+type SortOptions = {
+  viewMode: { view: "grid" | "list" };
+  sortOptions: {
+    sortBy: "relevance" | "protein" | "carbs" | "fats";
+    sortOrder: "none" | "asc" | "desc";
+  };
+};
+const sortOptions = reactive<SortOptions["sortOptions"]>({
+  sortBy: "protein",
+  sortOrder: "none",
+});
 
 const onSortOrder = () => {
   if (sortOptions.sortOrder === "none") sortOptions.sortOrder = "asc";
@@ -64,7 +77,7 @@ const onSortOrder = () => {
         cols="12"
         sm="12"
         md="6"
-        class="d-flex align-center py-3 px-3 px-md-8"
+        class="d-none align-center py-3 px-3 px-md-8 d-md-flex"
       >
         <ProductsShowcase
           :total="{ totalItems: 15, totalBudget: 1000, totalSpent: 500 }"
@@ -78,7 +91,7 @@ const onSortOrder = () => {
 </template>
 
 <style lang="scss" scoped>
-@import "../styles/mixins.scss";
+@import "styles/mixins.scss";
 
 main {
   min-height: calc(100vh - 60px);

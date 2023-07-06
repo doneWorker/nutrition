@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 import { signOut } from "~/api/auth";
 
 definePageMeta({

@@ -1,7 +1,7 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import clsx from "clsx";
-import BasketIcon from "~/assets/icons/basket.svg";
-import NutritionRequirements from "./nutriment-requirements.vue";
+import BasketIcon from "@/assets/icons/basket.svg";
+import NutritionRequirements from "./requirements.vue";
 
 const shadowIsVisible = ref(false);
 
@@ -13,7 +13,7 @@ window.addEventListener("scroll", () => {
 
 <template>
   <header :class="clsx('header', shadowIsVisible && 'shadow')">
-    <div class="main-header">
+    <div class="header--inner">
       <VContainer class="d-flex pa-0 gap">
         <VBtn icon="mdi-arrow-left" size="40" class="mr-4" variant="text" />
         <VTextField
@@ -28,7 +28,7 @@ window.addEventListener("scroll", () => {
         />
         <VBtn class="text-none" size="40" stacked rounded variant="text">
           <VBadge content="2" class="basket-counter">
-            <BasketIcon />
+            <BasketIcon class="icon" />
           </VBadge>
         </VBtn>
       </VContainer>
@@ -37,31 +37,36 @@ window.addEventListener("scroll", () => {
   </header>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "styles/variables.scss";
 
 .header {
   position: sticky;
   top: 0;
   z-index: 9;
+
   &.shadow {
     box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.15);
   }
-}
 
-.main-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 60px;
-  padding: 10px;
+  &--inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 60px;
+    padding: 10px;
 
-  background-color: $white;
-  transition: box-shadow 0.3s ease-in-out;
+    background-color: $white;
+    transition: box-shadow 0.3s ease-in-out;
+  }
 }
 
 .basket-counter {
+  .icon {
+    width: 25px;
+  }
+
   &::v-deep .v-badge__badge {
     bottom: -30% !important;
     z-index: 2;

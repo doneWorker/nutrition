@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import BasketIcon from "~/assets/icons/basket.svg";
 import { useBasket } from "~/composables/use-basket";
 import BasketItem from "./basket-item.vue";
@@ -30,8 +30,25 @@ defineProps<{
       </div>
     </div>
     <div class="basket">
-      <div class="'basket--inner'">
-        <div class="basket__stats">energy</div>
+      <div class="basket--inner">
+        <div class="basket-stats">
+          <div class="basket-stats--inner">
+            <div class="basket-stats__item basket-stats__item--energy">
+              <VIcon icon="mdi-lightning-bolt" size="sm" /><span
+                >3600 kcal</span
+              >
+            </div>
+            <div class="basket-stats__item basket-stats__item--protein">
+              <VIcon icon="mdi-dumbbell" size="sm" /><span>142g protein</span>
+            </div>
+            <div class="basket-stats__item basket-stats__item--fat">
+              <VIcon icon="mdi-cheese" size="sm" /><span>35g fat</span>
+            </div>
+            <div class="basket-stats__item basket-stats__item--carbs">
+              <VIcon icon="mdi-spoon-sugar" size="sm" /> <span>75g carbs</span>
+            </div>
+          </div>
+        </div>
         <div
           class="basket__products"
           :style="{
@@ -70,8 +87,8 @@ defineProps<{
   </div>
 </template>
 
-<style scoped lang="scss">
-@import "../styles/variables.scss";
+<style lang="scss" scoped>
+@import "styles/variables.scss";
 
 .showcase {
   width: 100%;
@@ -155,18 +172,14 @@ defineProps<{
     background-color: $green-light-active;
     border: 4px dashed $green-normal-active;
 
-    &__stats {
-      position: absolute;
-    }
-
     &--inner {
+      position: relative;
       height: 100%;
     }
 
     &__products {
       display: grid;
       padding: 25px;
-      /* grid-template-columns: repeat(3, 1fr); */
       grid-gap: 10px;
 
       &.grid-1 {
@@ -217,6 +230,49 @@ defineProps<{
       font-size: 17px;
       color: $green-normal-active;
       border: 2px solid $green-normal-active;
+    }
+  }
+}
+
+.basket-stats {
+  position: absolute;
+  top: 16px;
+  right: 10px;
+  height: 20px;
+
+  &--inner {
+    display: flex;
+  }
+
+  &__item {
+    line-height: 25px;
+    padding: 0 40px 0 15px;
+
+    font-size: 16px;
+    border: 1.5px solid $white;
+    border-radius: 25px;
+    color: $white;
+
+    span {
+      margin-left: 3px;
+    }
+
+    &--energy {
+      background-color: $red-normal-hover;
+      transform: translateX(90px);
+    }
+    &--protein {
+      background-color: $green-normal-hover;
+      transform: translateX(60px);
+    }
+    &--fat {
+      background-color: $yellow-normal-hover;
+      transform: translateX(30px);
+    }
+    &--carbs {
+      background-color: $blue-normal-hover;
+      padding-right: 25px;
+      z-index: 2;
     }
   }
 }

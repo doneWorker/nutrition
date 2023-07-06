@@ -1,12 +1,7 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 let loading = ref(false);
 
-const onSearch = () => {
-  loading.value = true;
-  setTimeout(() => {
-    loading.value = false;
-  }, 2_000);
-};
+const onSearch = () => {};
 </script>
 
 <template>
@@ -57,7 +52,7 @@ const onSearch = () => {
   </header>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "styles/variables.scss";
 
 .header {

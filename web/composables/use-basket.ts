@@ -1,6 +1,7 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { ProductInBasket } from "~/types/products";
 
+/* TODO: add computed */
 const products = ref<ProductInBasket[]>([]);
 const total = ref(0);
 

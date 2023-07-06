@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import clsx from "clsx";
 
 defineProps<{
@@ -12,7 +12,7 @@ defineProps<{
 
 <template>
   <div class="tags">
-    <div class="inner">
+    <div class="tags--inner">
       <VChip
         v-for="tag in tags"
         variant="outlined"
@@ -27,13 +27,13 @@ defineProps<{
 </template>
 
 <style lang="scss" scoped>
-@import "../styles/variables.scss";
-@import "../styles/mixins.scss";
+@import "styles/variables.scss";
+@import "styles/mixins.scss";
 
 .tags {
   margin: 5px 0;
 
-  .inner {
+  &--inner {
     display: flex;
     gap: 10px;
 

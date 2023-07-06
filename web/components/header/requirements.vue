@@ -1,36 +1,17 @@
 <script lang="ts" setup>
 import clsx from "clsx";
 import { onMounted } from "vue";
+import { macroNutriments } from "@/constants";
+import { randomInt } from "@/utils/random-int";
 
-type NutrimentItem = { id: string; name: string; value?: number };
-let nutriments = ref<NutrimentItem[]>([
-  {
-    id: "energy",
-    name: "Energy",
-  },
-  {
-    id: "protein",
-    name: "Protein",
-  },
-  {
-    id: "fat",
-    name: "Fat",
-  },
-  {
-    id: "carbs",
-    name: "Carbs",
-  },
-]);
-
-const rand = (from: number, to: number): number => {
-  const range = to - from + 1;
-  return Math.floor(Math.random() * range) + from;
-};
+const nutriments = ref(macroNutriments);
 
 onMounted(() => {
+  console.log("mounted");
+
   const setValues = () => {
     nutriments.value = nutriments.value.map((nutriment) => {
-      return { ...nutriment, value: rand(30, 100) };
+      return { ...nutriment, value: randomInt(30, 100) };
     });
   };
 
@@ -41,16 +22,16 @@ onMounted(() => {
 <template>
   <div class="nutriment-requirements">
     <div class="stats">
-      <div :class="clsx('stats-item', stat.id)" v-for="stat in nutriments">
-        <VProgressLinear :model-value="stat?.value || 0" height="8" />
-        {{ stat.name }}
+      <div v-for="item in nutriments" :class="clsx('stats-item', item.id)">
+        <VProgressLinear :model-value="item?.value || 0" height="8" />
+        {{ item.name }}
       </div>
     </div>
     <VBtn class="settings-button" variant="text" icon="mdi-cog-outline" />
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "styles/variables.scss";
 
 .nutriment-requirements {

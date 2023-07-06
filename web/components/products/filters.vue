@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 type Breadcrumbs = {
   title: string;
   url: string;
@@ -70,7 +70,7 @@ defineProps<{
 </template>
 
 <style lang="scss" scoped>
-@import "../styles/variables.scss";
+@import "styles/variables.scss";
 
 .breadcrumbs {
   &__item {

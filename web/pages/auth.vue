@@ -107,8 +107,8 @@ defineExpose({
 </template>
 
 <style lang="scss">
-@import "../styles/global.scss";
-@import "../styles/variables.scss";
+@import "styles/global.scss";
+@import "styles/variables.scss";
 
 // Animations
 .slide-up-enter-active,
