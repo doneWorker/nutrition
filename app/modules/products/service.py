@@ -1,3 +1,5 @@
+import random
+
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
@@ -15,7 +17,12 @@ def get_product(product_id: int, db: Session = Depends(get_db)):
 def get_products(query: ProductsQuery, db: Session = Depends(get_db)):
     products = db.query(Product).filter(Product.image_url != None).offset(query.skip).limit(query.limit).all()
 
-    return [ProductOut.from_orm(product) for product in products]
+    output = [dict(ProductOut.from_orm(product)) for product in products]
+
+    for product in output:
+        product['price'] = random.randint(1, 100)
+
+    return output
 
 
 def create_product(product: ProductCreate, db: Session = Depends(get_db)):

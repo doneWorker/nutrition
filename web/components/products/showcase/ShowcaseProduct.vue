@@ -6,9 +6,10 @@ defineProps<ProductInBasket>();
 
 <template>
   <div class="basket-item">
+    {{ quantity }}
     <div><img :src="image_url" :alt="name" /></div>
     <div>{{ name }}</div>
-    <div>{{ price }}</div>
+    <div>{{ price }}$</div>
   </div>
 </template>
 

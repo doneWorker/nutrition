@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { clsx } from "clsx";
 import { getNutritionPercentage } from "./helpers";
-import { useBasket } from "~/composables/use-basket";
+import { useBasket } from "~/composables/useBasket";
 import { ProductItemModel } from "~/types/products";
 
 const { addProduct } = useBasket();
@@ -17,14 +17,18 @@ const nutriments = ref({
   fats: 0,
 });
 
-setTimeout(() => {
-  nutriments.value = {
-    energy: 90,
-    protein: 10,
-    carbs: 30,
-    fats: 70,
+onMounted(() => {
+  const setValues = () => {
+    nutriments.value = {
+      energy: 90,
+      protein: 10,
+      carbs: 30,
+      fats: 70,
+    };
   };
-}, 1_000);
+
+  setTimeout(setValues, 1_000);
+});
 
 defineProps<ProductItemModel & { variant: "list" | "grid" }>();
 </script>

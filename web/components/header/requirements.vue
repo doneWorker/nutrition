@@ -7,8 +7,6 @@ import { randomInt } from "@/utils/random-int";
 const nutriments = ref(macroNutriments);
 
 onMounted(() => {
-  console.log("mounted");
-
   const setValues = () => {
     nutriments.value = nutriments.value.map((nutriment) => {
       return { ...nutriment, value: randomInt(30, 100) };

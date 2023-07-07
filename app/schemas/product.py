@@ -72,5 +72,6 @@ class ProductOut(BaseModel):
     vitamin_c: Optional[float]
     calcium: Optional[float]
     iron: Optional[float]
+    price: Optional[float]
     date_created: Optional[datetime]
     date_updated: Optional[datetime]

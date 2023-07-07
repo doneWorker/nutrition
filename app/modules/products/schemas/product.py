@@ -37,6 +37,7 @@ class ProductCreate(BaseModel):
     vitamin_c: Optional[float] = None
     calcium: Optional[float] = None
     iron: Optional[float] = None
+    price: Optional[float] = None
 
 
 class ProductUpdate(BaseModel):
